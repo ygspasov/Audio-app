@@ -1,11 +1,12 @@
 <template>
-  <h1 class="text-3xl font-bold underline">Music app</h1>
+  <Navbar></Navbar>
 </template>
 
 <script>
+import Navbar from "./components/NavBar.vue";
 export default {
   name: "App",
-  components: {},
+  components: { Navbar },
 };
 </script>
 
