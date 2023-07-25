@@ -5,7 +5,7 @@
         <a href="#" class="flex items-center">
           <img src="@/assets/Music.png" class="h-8 mr-3" alt="Music app Logo" />
           <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"
-            >Music app</span
+            >FlowMusic</span
           >
         </a>
         <button
