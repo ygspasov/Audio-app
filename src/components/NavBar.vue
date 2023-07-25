@@ -5,8 +5,8 @@
         <a href="#" class="flex items-center">
           <img src="@/assets/Music.png" class="h-8 mr-3" alt="Music app Logo" />
           <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"
-            >FlowMusic</span
-          >
+            >FlowMusic
+          </span>
         </a>
         <button
           data-collapse-toggle="navbar-multi-level"
@@ -191,6 +191,14 @@
   </div>
 </template>
 <script>
-export default {};
+import { mapState } from "pinia";
+import { musicStore } from "../stores/musicStore.js";
+export default {
+  computed: {
+    // gives access to this.count inside the component
+    // same as reading from store.count
+    ...mapState(musicStore, ["counter"]),
+  },
+};
 </script>
 <style></style>
