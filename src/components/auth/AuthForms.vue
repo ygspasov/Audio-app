@@ -8,11 +8,14 @@
         >
         <input
           type="email"
+          v-model="email"
           id="email"
+          @blur="v$.email.$touch"
           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           placeholder="name@flowbite.com"
           required
         />
+        <div v-if="v$.email.$error">Email field has an error.</div>
       </div>
       <div class="mb-6">
         <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -163,10 +166,29 @@
   </div>
 </template>
 <script>
+import { useVuelidate } from "@vuelidate/core";
+import { required, email } from "@vuelidate/validators";
 export default {
   props: ["loginOrRegister"],
+  setup() {
+    return { v$: useVuelidate() };
+  },
   data() {
-    return {};
+    return {
+      firstName: "",
+      lastName: "",
+      email: "",
+    };
+  },
+  validations() {
+    return {
+      firstName: { required }, // Matches this.firstName
+      lastName: { required }, // Matches this.lastName
+      email: { required, email }, // Matches this.contact.email
+    };
+  },
+  created() {
+    console.log("this.v$", this.v$);
   },
 };
 </script>
