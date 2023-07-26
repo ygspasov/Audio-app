@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- Sign in form -->
-    <form>
+    <form v-if="loginOrRegister">
       <div class="mb-6">
         <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >Your email</label
@@ -42,7 +42,7 @@
     </form>
     <!-- Registration form -->
 
-    <form>
+    <form v-if="!loginOrRegister">
       <div class="relative z-0 w-full mb-6 group">
         <input
           type="email"
@@ -163,6 +163,11 @@
   </div>
 </template>
 <script>
-export default {};
+export default {
+  props: ["loginOrRegister"],
+  data() {
+    return {};
+  },
+};
 </script>
 <style></style>
