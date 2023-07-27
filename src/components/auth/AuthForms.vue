@@ -2,20 +2,20 @@
   <div>
     <!-- Sign in form -->
     <form v-if="loginOrRegister">
+      isLoginValid:{{ isLoginValid }}
       <div class="mb-6">
         <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >Your email</label
         >
         <input
           type="email"
-          v-model="email"
+          v-model="l_email"
           id="email"
-          @blur="v$.email.$touch"
+          @blur="v$.l_email.$touch"
           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           placeholder="name@flowbite.com"
-          required
         />
-        <div v-if="v$.email.$error">Email field has an error.</div>
+        <div v-if="v$.l_email.$error">Email field has an error.</div>
       </div>
       <div class="mb-6">
         <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -23,10 +23,12 @@
         >
         <input
           type="password"
+          v-model="l_password"
           id="password"
+          @blur="v$.l_password.$touch"
           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          required
         />
+        <div v-if="v$.l_password.$error">Password field has an error.</div>
       </div>
       <div class="flex items-start mb-6">
         <div class="flex items-center h-5">
@@ -167,7 +169,7 @@
 </template>
 <script>
 import { useVuelidate } from "@vuelidate/core";
-import { required, email } from "@vuelidate/validators";
+import { required, email, minLength, maxLength } from "@vuelidate/validators";
 export default {
   props: ["loginOrRegister"],
   setup() {
@@ -175,18 +177,35 @@ export default {
   },
   data() {
     return {
-      firstName: "",
-      lastName: "",
-      email: "",
+      l_email: "",
+      l_password: "",
+      r_firstName: "",
+      r_lastName: "",
+      r_password: "",
+      r_confirm: "",
     };
   },
   validations() {
+    // l_ for the login form
+    // r_ for the registration form
     return {
-      firstName: { required }, // Matches this.firstName
-      lastName: { required }, // Matches this.lastName
-      email: { required, email }, // Matches this.contact.email
+      //   firstName: { required, alpha },
+      //   lastName: { required, alpha },
+      l_email: { required, email },
+      l_password: { required, minLength: minLength(6), maxLength: maxLength(15) },
     };
   },
+  computed: {
+    isLoginValid() {
+      this.v$.l_email.$touch();
+      this.v$.l_password.$touch();
+      if (!this.v$.l_email.$invalid && !this.v$.l_password.$invalid) {
+        console.log("Login valid");
+      }
+      return !this.v$.l_email.$invalid && !this.v$.l_password.$invalid;
+    },
+  },
+  methods: {},
   created() {
     console.log("this.v$", this.v$);
   },
