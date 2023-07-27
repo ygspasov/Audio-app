@@ -2,7 +2,7 @@
   <div>
     <!-- Sign in form -->
     <form v-if="loginOrRegister">
-      isLoginValid:{{ isLoginValid }}
+      <p v-if="isLoginValid"></p>
       <div class="mb-6">
         <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >Your email</label
@@ -197,17 +197,21 @@ export default {
   },
   computed: {
     isLoginValid() {
-      this.v$.l_email.$touch();
-      this.v$.l_password.$touch();
       if (!this.v$.l_email.$invalid && !this.v$.l_password.$invalid) {
         console.log("Login valid");
+        this.$emit("l_valid", true);
+      } else {
+        this.$emit("l_valid", false);
       }
       return !this.v$.l_email.$invalid && !this.v$.l_password.$invalid;
     },
   },
+  watch: {},
   methods: {},
   created() {
     console.log("this.v$", this.v$);
+    this.l_email = "";
+    this.l_password = "";
   },
 };
 </script>
