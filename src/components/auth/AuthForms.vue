@@ -13,9 +13,11 @@
           id="email"
           @blur="v$.l_email.$touch"
           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          placeholder="name@flowbite.com"
+          placeholder="name@gmail.com"
         />
-        <div v-if="v$.l_email.$error">Email field has an error.</div>
+        <p class="mt-2" v-for="error of v$.l_email.$errors" :key="error.$uid">
+          <strong>{{ error.$message }}</strong>
+        </p>
       </div>
       <div class="mb-6">
         <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -28,7 +30,9 @@
           @blur="v$.l_password.$touch"
           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
         />
-        <div v-if="v$.l_password.$error">Password field has an error.</div>
+        <p class="mt-2" v-for="error of v$.l_password.$errors" :key="error.$uid">
+          <strong>{{ error.$message }}</strong>
+        </p>
       </div>
       <div class="flex items-start mb-6">
         <div class="flex items-center h-5">
@@ -169,7 +173,8 @@
 </template>
 <script>
 import { useVuelidate } from "@vuelidate/core";
-import { required, email, minLength, maxLength } from "@vuelidate/validators";
+import { helpers, email, minLength, maxLength } from "@vuelidate/validators";
+
 export default {
   props: ["loginOrRegister"],
   setup() {
@@ -191,10 +196,22 @@ export default {
     return {
       //   firstName: { required, alpha },
       //   lastName: { required, alpha },
-      l_email: { required, email },
-      l_password: { required, minLength: minLength(6), maxLength: maxLength(15) },
+      l_email: {
+        requiredIf: helpers.withMessage("Email is required", (val) => {
+          return val.length > 0;
+        }),
+        email,
+      },
+      l_password: {
+        requiredIf: helpers.withMessage("Password is required", (val) => {
+          return val.length > 0;
+        }),
+        minLength: minLength(6),
+        maxLength: maxLength(20),
+      },
     };
   },
+
   computed: {
     isLoginValid() {
       if (!this.v$.l_email.$invalid && !this.v$.l_password.$invalid) {
