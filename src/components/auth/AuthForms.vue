@@ -359,6 +359,16 @@ export default {
       ) {
         console.log("Registration valid");
         this.$emit("r_valid", true);
+        const registration = {
+          email: this.r_email,
+          password: this.r_password,
+          confirm: this.r_confirm,
+          firstName: this.r_firstName,
+          lastName: this.r_lastName,
+          phone: this.r_phone,
+          address: this.r_address,
+        };
+        this.$emit("registration", registration);
       } else {
         console.log("Registration invalid");
         this.$emit("r_valid", false);
