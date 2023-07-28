@@ -115,7 +115,7 @@
           type="password"
           name="repeat_password"
           id="floating_repeat_password"
-          class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+          class="block py-2.5 px-2 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
           placeholder=" "
           required
         />
@@ -141,7 +141,7 @@
             type="text"
             name="floating_first_name"
             id="floating_first_name"
-            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+            class="block py-2.5 px-2 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
             placeholder=" "
           />
           <label
@@ -164,9 +164,8 @@
             type="text"
             name="floating_last_name"
             id="floating_last_name"
-            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+            class="block py-2.5 px-2 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
             placeholder=" "
-            required
           />
           <label
             for="floating_last_name"
@@ -185,34 +184,50 @@
       <div class="grid md:grid-cols-2 md:gap-6">
         <div class="relative z-0 w-full mb-6 group">
           <input
+            v-model="r_phone"
+            @blur="v$.r_phone.$touch"
             type="tel"
             pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
             name="floating_phone"
             id="floating_phone"
-            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+            class="block py-2.5 px-2 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
             placeholder=" "
-            required
           />
           <label
             for="floating_phone"
             class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
             >Phone number (123-456-7890)</label
           >
+          <p
+            class="mt-2 text-sm text-red-600 dark:text-red-500"
+            v-for="error of v$.r_phone.$errors"
+            :key="error.$uid"
+          >
+            <strong>{{ error.$message }}</strong>
+          </p>
         </div>
         <div class="relative z-0 w-full mb-6 group">
           <input
+            v-model="r_address"
+            @blur="v$.r_address.$touch"
             type="text"
-            name="floating_company"
-            id="floating_company"
-            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+            name="floating_address"
+            id="floating_address"
+            class="block py-2.5 px-2 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
             placeholder=" "
-            required
           />
           <label
-            for="floating_company"
+            for="floating_address"
             class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-            >Company (Ex. Google)</label
+            >Address</label
           >
+          <p
+            class="mt-2 text-sm text-red-600 dark:text-red-500"
+            v-for="error of v$.r_address.$errors"
+            :key="error.$uid"
+          >
+            <strong>{{ error.$message }}</strong>
+          </p>
         </div>
       </div>
       <!-- <button
@@ -226,7 +241,15 @@
 </template>
 <script>
 import { useVuelidate } from "@vuelidate/core";
-import { helpers, alpha, sameAs, email, minLength, maxLength } from "@vuelidate/validators";
+import {
+  helpers,
+  alpha,
+  numeric,
+  sameAs,
+  email,
+  minLength,
+  maxLength,
+} from "@vuelidate/validators";
 
 export default {
   props: ["loginOrRegister"],
@@ -242,6 +265,8 @@ export default {
       r_confirm: "",
       r_firstName: "",
       r_lastName: "",
+      r_phone: "",
+      r_address: "",
     };
   },
   validations() {
@@ -293,6 +318,20 @@ export default {
         //   return val.length > 0;
         // }),
         sameAsPassword: sameAs(this.r_password),
+      },
+      r_phone: {
+        requiredIf: helpers.withMessage("Phone is required", (val) => {
+          return val.length > 0;
+        }),
+        numeric,
+        minLength: minLength(8),
+        maxLength: maxLength(12),
+      },
+      r_address: {
+        requiredIf: helpers.withMessage("Address is required", (val) => {
+          return val.length > 0;
+        }),
+        minLength: minLength(10),
       },
     };
   },

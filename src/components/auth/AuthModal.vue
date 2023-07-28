@@ -79,6 +79,7 @@ export default {
     return {
       loginOrRegister: true,
       l_valid: false,
+      r_valid: false,
     };
   },
   components: {
