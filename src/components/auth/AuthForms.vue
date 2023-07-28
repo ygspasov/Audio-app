@@ -62,6 +62,8 @@
     <form v-if="!loginOrRegister">
       <div class="relative z-0 w-full mb-6 group">
         <input
+          v-model="r_email"
+          @blur="v$.r_email.$touch"
           type="email"
           name="floating_email"
           id="floating_email"
@@ -74,9 +76,18 @@
           class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-0 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
           >Email address</label
         >
+        <p
+          class="mt-2 text-sm text-red-600 dark:text-red-500"
+          v-for="error of v$.r_email.$errors"
+          :key="error.$uid"
+        >
+          <strong>{{ error.$message }}</strong>
+        </p>
       </div>
       <div class="relative z-0 w-full mb-6 group">
         <input
+          v-model="r_password"
+          @blur="v$.r_password.$touch"
           type="password"
           name="floating_password"
           id="floating_password"
@@ -89,9 +100,18 @@
           class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-0 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
           >Password</label
         >
+        <p
+          class="mt-2 text-sm text-red-600 dark:text-red-500"
+          v-for="error of v$.r_password.$errors"
+          :key="error.$uid"
+        >
+          <strong>{{ error.$message }}</strong>
+        </p>
       </div>
       <div class="relative z-0 w-full mb-6 group">
         <input
+          v-model="r_confirm"
+          @blur="v$.r_confirm.$touch"
           type="password"
           name="repeat_password"
           id="floating_repeat_password"
@@ -104,25 +124,43 @@
           class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
           >Confirm password</label
         >
+        <p
+          class="mt-2 text-sm text-red-600 dark:text-red-500"
+          v-for="error of v$.r_confirm.$errors"
+          :key="error.$uid"
+        >
+          <strong>{{ error.$message }}</strong>
+        </p>
       </div>
+
       <div class="grid md:grid-cols-2 md:gap-6">
         <div class="relative z-0 w-full mb-6 group">
           <input
+            v-model="r_firstName"
+            @blur="v$.r_firstName.$touch"
             type="text"
             name="floating_first_name"
             id="floating_first_name"
             class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
             placeholder=" "
-            required
           />
           <label
             for="floating_first_name"
             class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
             >First name</label
           >
+          <p
+            class="mt-2 text-sm text-red-600 dark:text-red-500"
+            v-for="error of v$.r_firstName.$errors"
+            :key="error.$uid"
+          >
+            <strong>{{ error.$message }}</strong>
+          </p>
         </div>
         <div class="relative z-0 w-full mb-6 group">
           <input
+            v-model="r_lastName"
+            @blur="v$.r_lastName.$touch"
             type="text"
             name="floating_last_name"
             id="floating_last_name"
@@ -135,6 +173,13 @@
             class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
             >Last name</label
           >
+          <p
+            class="mt-2 text-sm text-red-600 dark:text-red-500"
+            v-for="error of v$.r_lastName.$errors"
+            :key="error.$uid"
+          >
+            <strong>{{ error.$message }}</strong>
+          </p>
         </div>
       </div>
       <div class="grid md:grid-cols-2 md:gap-6">
@@ -181,7 +226,7 @@
 </template>
 <script>
 import { useVuelidate } from "@vuelidate/core";
-import { helpers, email, minLength, maxLength } from "@vuelidate/validators";
+import { helpers, alpha, sameAs, email, minLength, maxLength } from "@vuelidate/validators";
 
 export default {
   props: ["loginOrRegister"],
@@ -192,18 +237,17 @@ export default {
     return {
       l_email: "",
       l_password: "",
-      r_firstName: "",
-      r_lastName: "",
+      r_email: "",
       r_password: "",
       r_confirm: "",
+      r_firstName: "",
+      r_lastName: "",
     };
   },
   validations() {
     // l_ for the login form
     // r_ for the registration form
     return {
-      //   firstName: { required, alpha },
-      //   lastName: { required, alpha },
       l_email: {
         requiredIf: helpers.withMessage("Email is required", (val) => {
           return val.length > 0;
@@ -216,6 +260,39 @@ export default {
         }),
         minLength: minLength(6),
         maxLength: maxLength(20),
+      },
+      r_firstName: {
+        requiredIf: helpers.withMessage("First name is required", (val) => {
+          return val.length > 0;
+        }),
+        alpha,
+        minLength: minLength(3),
+      },
+      r_lastName: {
+        requiredIf: helpers.withMessage("Last name is required", (val) => {
+          return val.length > 0;
+        }),
+        alpha,
+        minLength: minLength(3),
+      },
+      r_email: {
+        requiredIf: helpers.withMessage("Email is required", (val) => {
+          return val.length > 0;
+        }),
+        email,
+      },
+      r_password: {
+        requiredIf: helpers.withMessage("Password is required", (val) => {
+          return val.length > 0;
+        }),
+        minLength: minLength(6),
+        maxLength: maxLength(20),
+      },
+      r_confirm: {
+        // requiredIf: helpers.withMessage("Password is required", (val) => {
+        //   return val.length > 0;
+        // }),
+        sameAsPassword: sameAs(this.r_password),
       },
     };
   },
