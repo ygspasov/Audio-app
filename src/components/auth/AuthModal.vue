@@ -88,6 +88,7 @@
 <script>
 import AuthForms from "./AuthForms.vue";
 // import firebase from "@/firebase/firebase";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
 export default {
   data() {
@@ -110,7 +111,32 @@ export default {
       console.log("register");
       this.loginOrRegister = false;
       console.log("registrationData", this.registrationData);
-      //   const userCredentials = await firebase.auth().createUserWithEmailAndPassword(email, password);
+      //   try {
+      //     const userCredentials = await firebase
+      //       .auth()
+      //       .createUserWithEmailAndPassword(
+      //         this.registrationData.email,
+      //         this.registrationData.password
+      //       );
+      //   } catch (error) {
+      //     console.log("error", error);
+      //   }
+      const auth = getAuth();
+      createUserWithEmailAndPassword(
+        auth,
+        this.registrationData.email,
+        this.registrationData.password
+      )
+        .then((userCredential) => {
+          // Signed in
+          const user = userCredential.user;
+          console.log("user", user);
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          console.log("errorCode, errorMessage", errorCode, errorMessage);
+        });
     },
   },
 };
