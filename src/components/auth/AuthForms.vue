@@ -1,8 +1,9 @@
 <template>
   <div>
     <!-- Sign in form -->
+    <p v-if="isLoginValid"></p>
+    <p v-if="isRegistrationValid"></p>
     <form v-if="loginOrRegister">
-      <p v-if="isLoginValid"></p>
       <div class="mb-6">
         <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >Your email</label
@@ -42,7 +43,7 @@
           <strong>{{ error.$message }}</strong>
         </p>
       </div>
-      <div class="flex items-start mb-6">
+      <!-- <div class="flex items-start mb-6">
         <div class="flex items-center h-5">
           <input
             id="remember"
@@ -55,7 +56,7 @@
         <label for="remember" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
           >Remember me</label
         >
-      </div>
+      </div> -->
     </form>
     <!-- Registration form -->
 
@@ -346,6 +347,32 @@ export default {
       }
       return !this.v$.l_email.$invalid && !this.v$.l_password.$invalid;
     },
+    isRegistrationValid() {
+      if (
+        !this.v$.r_email.$invalid &&
+        !this.v$.r_password.$invalid &&
+        !this.v$.r_confirm.$invalid &&
+        !this.v$.r_firstName.$invalid &&
+        !this.v$.r_lastName.$invalid &&
+        !this.v$.r_phone.$invalid &&
+        !this.v$.r_address.$invalid
+      ) {
+        console.log("Registration valid");
+        this.$emit("r_valid", true);
+      } else {
+        console.log("Registration invalid");
+        this.$emit("r_valid", false);
+      }
+      return (
+        !this.v$.r_email.$invalid &&
+        !this.v$.r_password.$invalid &&
+        !this.v$.r_confirm.$invalid &&
+        !this.v$.r_firstName.$invalid &&
+        !this.v$.r_lastName.$invalid &&
+        !this.v$.r_phone.$invalid &&
+        !this.v$.r_address.$invalid
+      );
+    },
   },
   watch: {},
   methods: {},
@@ -353,6 +380,8 @@ export default {
     console.log("this.v$", this.v$);
     this.l_email = "";
     this.l_password = "";
+    this.r_email = "";
+    this.r_password = "";
   },
 };
 </script>
