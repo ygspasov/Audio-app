@@ -24,7 +24,7 @@
             class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600"
           >
             <button
-              @click="signin()"
+              @click="signInOrRegister('signin')"
               type="button"
               class="hover:bg-blue-800 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center w-6/12"
               :class="{ 'bg-blue-700': loginOrRegister, 'text-white': loginOrRegister }"
@@ -32,7 +32,7 @@
               Sign in
             </button>
             <button
-              @click="register()"
+              @click="signInOrRegister('register')"
               type="button"
               class="hover:bg-blue-800 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center w-6/12"
               :class="{ 'bg-blue-700': !loginOrRegister, 'text-white': !loginOrRegister }"
@@ -49,7 +49,25 @@
               @registration="(registration) => (this.registrationData = registration)"
             />
           </div>
-          <!-- Modal footer -->
+
+          <!-- Success text -->
+          <div
+            v-if="this.successText"
+            class="p-4 mb-4 mx-6 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400"
+            role="alert"
+          >
+            <span class="font-medium">{{ successText }}</span>
+          </div>
+
+          <!-- Error text -->
+          <div
+            v-if="errorText"
+            class="p-4 mb-4 mx-6 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+            role="alert"
+          >
+            <span class="font-medium">{{ errorText }}</span>
+          </div>
+
           <div
             class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600"
           >
@@ -97,30 +115,18 @@ export default {
       l_valid: false,
       r_valid: false,
       registrationData: {},
+      successText: "",
+      errorText: "",
     };
   },
   components: {
     AuthForms,
   },
   methods: {
-    signin() {
-      console.log("sign in");
-      this.loginOrRegister = true;
+    signInOrRegister(val) {
+      val == "signin" ? (this.loginOrRegister = true) : (this.loginOrRegister = false);
     },
-    async register() {
-      console.log("register");
-      this.loginOrRegister = false;
-      console.log("registrationData", this.registrationData);
-      //   try {
-      //     const userCredentials = await firebase
-      //       .auth()
-      //       .createUserWithEmailAndPassword(
-      //         this.registrationData.email,
-      //         this.registrationData.password
-      //       );
-      //   } catch (error) {
-      //     console.log("error", error);
-      //   }
+    register() {
       const auth = getAuth();
       createUserWithEmailAndPassword(
         auth,
@@ -131,11 +137,19 @@ export default {
           // Signed in
           const user = userCredential.user;
           console.log("user", user);
+          this.successText = "User created!";
+          setTimeout(() => {
+            this.successText = "";
+          }, 3000);
         })
         .catch((error) => {
-          const errorCode = error.code;
+          //   const errorCode = error.code;
           const errorMessage = error.message;
-          console.log("errorCode, errorMessage", errorCode, errorMessage);
+          //   console.log("errorCode, errorMessage", errorCode, errorMessage);
+          this.errorText = errorMessage;
+          setTimeout(() => {
+            this.errorText = "";
+          }, 3000);
         });
     },
   },
