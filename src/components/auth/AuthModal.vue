@@ -107,6 +107,8 @@
 import AuthForms from "./AuthForms.vue";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { app, collection, addDoc, getFirestore } from "firebase/firestore";
+import { mapWritableState } from "pinia";
+import { authStore } from "@/stores/authStore";
 
 export default {
   data() {
@@ -118,6 +120,9 @@ export default {
       successText: "",
       errorText: "",
     };
+  },
+  computed: {
+    ...mapWritableState(authStore, ["userLoggedIn"]),
   },
   components: {
     AuthForms,
@@ -138,11 +143,12 @@ export default {
           // Signed in
           const user = userCredential.user;
           console.log("user", user);
-
+          this.userLoggedIn = true;
           this.successText = "User created!";
           setTimeout(() => {
             this.successText = "";
           }, 3000);
+          console.log("userLoggedIn", this.userLoggedIn);
         })
         .then(() => {
           addDoc(collection(db, "users"), {
