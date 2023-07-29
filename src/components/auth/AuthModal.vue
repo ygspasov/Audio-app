@@ -105,8 +105,8 @@
 </template>
 <script>
 import AuthForms from "./AuthForms.vue";
-// import firebase from "@/firebase/firebase";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { app, collection, addDoc, getFirestore } from "firebase/firestore";
 
 export default {
   data() {
@@ -126,8 +126,9 @@ export default {
     signInOrRegister(val) {
       val == "signin" ? (this.loginOrRegister = true) : (this.loginOrRegister = false);
     },
-    register() {
+    async register() {
       const auth = getAuth();
+      const db = getFirestore(app);
       createUserWithEmailAndPassword(
         auth,
         this.registrationData.email,
@@ -137,10 +138,26 @@ export default {
           // Signed in
           const user = userCredential.user;
           console.log("user", user);
+
           this.successText = "User created!";
           setTimeout(() => {
             this.successText = "";
           }, 3000);
+        })
+        .then(() => {
+          addDoc(collection(db, "users"), {
+            first: this.registrationData.firstName,
+            last: this.registrationData.lastName,
+            phone: this.registrationData.phone,
+            address: this.registrationData.address,
+            email: this.registrationData.email,
+          })
+            .then(() => {
+              console.log("collection updated");
+            })
+            .catch((error) => {
+              console.log("error", error);
+            });
         })
         .catch((error) => {
           //   const errorCode = error.code;
