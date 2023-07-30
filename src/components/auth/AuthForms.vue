@@ -342,6 +342,11 @@ export default {
       if (!this.v$.l_email.$invalid && !this.v$.l_password.$invalid) {
         console.log("Login valid");
         this.$emit("l_valid", true);
+        const login = {
+          email: this.l_email,
+          password: this.l_password,
+        };
+        this.$emit("login", login);
       } else {
         this.$emit("l_valid", false);
       }
