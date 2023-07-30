@@ -1,7 +1,6 @@
 <template>
   <div>
     <!-- Modal toggle -->
-    userLoggedIn:{{ userLoggedIn }}
     <a
       data-modal-target="defaultModal"
       data-modal-toggle="defaultModal"
@@ -145,21 +144,19 @@ export default {
           // Signed in
           const user = userCredential.user;
           console.log("user", user);
-
           this.loginUser();
           this.successText = "User created!";
           setTimeout(() => {
             this.successText = "";
           }, 3000);
           console.log("userLoggedIn", this.userLoggedIn);
-        })
-        .then(() => {
           addDoc(collection(db, "users"), {
             first: this.registrationData.firstName,
             last: this.registrationData.lastName,
             phone: this.registrationData.phone,
             address: this.registrationData.address,
             email: this.registrationData.email,
+            uid: user.uid,
           })
             .then(() => {
               console.log("collection updated");
@@ -169,9 +166,7 @@ export default {
             });
         })
         .catch((error) => {
-          //   const errorCode = error.code;
           const errorMessage = error.message;
-          //   console.log("errorCode, errorMessage", errorCode, errorMessage);
           this.errorText = errorMessage;
           setTimeout(() => {
             this.errorText = "";
