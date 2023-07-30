@@ -1,6 +1,7 @@
 <template>
   <div>
     <!-- Modal toggle -->
+    userLoggedIn:{{ userLoggedIn }}
     <a
       data-modal-target="defaultModal"
       data-modal-toggle="defaultModal"
@@ -107,7 +108,7 @@
 import AuthForms from "./AuthForms.vue";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { app, collection, addDoc, getFirestore } from "firebase/firestore";
-import { mapWritableState } from "pinia";
+import { mapState, mapActions } from "pinia";
 import { authStore } from "@/stores/authStore";
 
 export default {
@@ -122,12 +123,13 @@ export default {
     };
   },
   computed: {
-    ...mapWritableState(authStore, ["userLoggedIn"]),
+    ...mapState(authStore, ["userLoggedIn"]),
   },
   components: {
     AuthForms,
   },
   methods: {
+    ...mapActions(authStore, ["loginUser"]),
     signInOrRegister(val) {
       val == "signin" ? (this.loginOrRegister = true) : (this.loginOrRegister = false);
     },
@@ -143,7 +145,8 @@ export default {
           // Signed in
           const user = userCredential.user;
           console.log("user", user);
-          this.userLoggedIn = true;
+
+          this.loginUser();
           this.successText = "User created!";
           setTimeout(() => {
             this.successText = "";
