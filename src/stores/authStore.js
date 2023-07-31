@@ -13,6 +13,10 @@ export const authStore = defineStore("auth", {
       this.userLoggedIn = true;
       this.userEmail = email;
     },
+    logOutUser() {
+      this.userLoggedIn = false;
+      this.userEmail = "";
+    },
     async authenticate(email, password) {
       await signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {

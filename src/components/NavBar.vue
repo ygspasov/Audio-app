@@ -60,6 +60,7 @@
               <a
                 href="#"
                 class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                @click="signUserOut"
                 >Log out</a
               >
             </li>
@@ -70,16 +71,30 @@
   </div>
 </template>
 <script>
-import { mapState } from "pinia";
+import { mapState, mapActions } from "pinia";
 import { authStore } from "@/stores/authStore";
 import AuthModal from "./auth/AuthModal.vue";
+import { getAuth, signOut } from "firebase/auth";
+const auth = getAuth();
 
 export default {
   components: { AuthModal },
   computed: {
-    // gives access to this.count inside the component
-    // same as reading from store.count
     ...mapState(authStore, ["userLoggedIn"]),
+  },
+  methods: {
+    ...mapActions(authStore, ["logOutUser"]),
+    async signUserOut() {
+      await signOut(auth)
+        .then(() => {
+          // Sign-out successful.
+          console.log("Sign-out successful.");
+          this.logOutUser();
+        })
+        .catch((error) => {
+          console.log("error", error);
+        });
+    },
   },
 };
 </script>
