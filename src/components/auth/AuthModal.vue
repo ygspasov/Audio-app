@@ -126,10 +126,6 @@ export default {
   },
   computed: {
     ...mapState(authStore, ["userLoggedIn", "userEmail"]),
-    // usermail() {
-    //   console.log("this.userEmail", this.userEmail);
-    //   return this.userEmail ? "Login/Register" : "Logged in";
-    // },
   },
   components: {
     AuthForms,
@@ -156,7 +152,7 @@ export default {
           // Signed in
           const user = userCredential.user;
           console.log("user", user);
-          this.loginUser();
+          this.loginUser(this.registrationData.email);
           this.successText = "User created!";
           setTimeout(() => {
             this.successText = "";
