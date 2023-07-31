@@ -73,24 +73,24 @@
             class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600"
           >
             <button
-              v-if="loginOrRegister"
+              v-show="loginOrRegister"
               :disabled="!l_valid"
               data-modal-hide="defaultModal"
               type="button"
               class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 disabled:opacity-60"
               @click.prevent="authenticateUser"
             >
-              Submit
+              Login
             </button>
             <button
-              v-if="!loginOrRegister"
+              v-show="!loginOrRegister"
               :disabled="!r_valid"
               data-modal-hide="defaultModal"
               type="button"
               class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 disabled:opacity-60"
               @click="register"
             >
-              Submit
+              Register
             </button>
             <button
               data-modal-hide="defaultModal"
