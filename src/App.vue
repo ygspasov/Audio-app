@@ -10,7 +10,7 @@
 import Navbar from "./components/NavBar.vue";
 import HeroSection from "./components/HeroSection.vue";
 import SongsList from "./components/SongsList.vue";
-import { mapState } from "pinia";
+import { mapState, mapActions } from "pinia";
 import { authStore } from "@/stores/authStore";
 import "./firebase/firebase";
 import { getAuth } from "firebase/auth";
@@ -25,11 +25,15 @@ export default {
   computed: {
     ...mapState(authStore, ["userLoggedIn"]),
   },
-  created() {
-    console.log("auth.currentUser", auth.currentUser);
-    if (auth.currentUser) {
-      this.userLoggedIn = true;
-    }
+  methods: {
+    ...mapActions(authStore, ["loginUser", "authenticate"]),
+  },
+  async created() {
+    setTimeout(() => {
+      if (auth.currentUser) {
+        this.loginUser();
+      }
+    }, 1000);
   },
 };
 </script>
