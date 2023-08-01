@@ -2,14 +2,14 @@
   <div class="mx-4">
     <Navbar></Navbar>
     <HeroSection />
-    <SongsList />
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
 import Navbar from "./components/NavBar.vue";
 import HeroSection from "./components/HeroSection.vue";
-import SongsList from "./components/SongsList.vue";
+
 import { mapState, mapActions } from "pinia";
 import { authStore } from "@/stores/authStore";
 import "./firebase/firebase";
@@ -21,7 +21,7 @@ export default {
   data() {
     return {};
   },
-  components: { Navbar, HeroSection, SongsList },
+  components: { Navbar, HeroSection },
   computed: {
     ...mapState(authStore, ["userLoggedIn"]),
   },
