@@ -51,24 +51,6 @@
             />
           </div>
 
-          <!-- Success text -->
-          <div
-            v-if="this.successText"
-            class="p-4 mb-4 mx-6 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400"
-            role="alert"
-          >
-            <span class="font-medium">{{ successText }}</span>
-          </div>
-
-          <!-- Error text -->
-          <div
-            v-if="errorText"
-            class="p-4 mb-4 mx-6 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
-            role="alert"
-          >
-            <span class="font-medium">{{ errorText }}</span>
-          </div>
-
           <div
             class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600"
           >
@@ -120,8 +102,6 @@ export default {
       r_valid: false,
       registrationData: {},
       loginData: {},
-      successText: "",
-      errorText: "",
     };
   },
   computed: {
@@ -153,10 +133,6 @@ export default {
           const user = userCredential.user;
           console.log("user", user);
           this.loginUser(this.registrationData.email);
-          this.successText = "User created!";
-          setTimeout(() => {
-            this.successText = "";
-          }, 3000);
           console.log("userLoggedIn", this.userLoggedIn);
           addDoc(collection(db, "users"), {
             first: this.registrationData.firstName,
@@ -175,10 +151,7 @@ export default {
         })
         .catch((error) => {
           const errorMessage = error.message;
-          this.errorText = errorMessage;
-          setTimeout(() => {
-            this.errorText = "";
-          }, 3000);
+          console.log("errorMessage", errorMessage);
         });
     },
   },
