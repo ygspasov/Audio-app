@@ -1,11 +1,11 @@
 <template>
   <!-- Upload -->
-  <div id="manageSongs" class="max-w-screen-lg mx-auto">
+  <div id="manageSongs" class="max-w-screen-2lg mx-auto">
     <div
       class="h-screen flex flex-col md:flex-row items-center md:items-start justify-start md:justify-center"
     >
       <div
-        class="flex-1 mb-4 md:mb-0 mx-1 p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
+        class="basis-1/4 mb-4 md:mb-0 mx-1 p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
       >
         <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">Upload</h5>
         <div class="flex items-center justify-center w-full">
@@ -49,7 +49,7 @@
       <!-- Songs -->
 
       <div
-        class="flex-1 mx-1 p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
+        class="basis-1/2 mx-1 p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
       >
         <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">
           My Songs
