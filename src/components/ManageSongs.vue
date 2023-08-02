@@ -37,6 +37,12 @@
             <input id="dropzone-file" type="file" class="hidden" />
           </label>
         </div>
+        <div class="my-1 text-base font-medium text-blue-700 dark:text-blue-500">
+          Gamma Ray - Pale Rider
+        </div>
+        <div class="w-full bg-gray-200 rounded-full h-2.5 mb-4 dark:bg-gray-700">
+          <div class="bg-blue-600 h-2.5 rounded-full" style="width: 45%"></div>
+        </div>
       </div>
       <!-- Songs -->
 
