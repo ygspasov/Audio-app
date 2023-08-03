@@ -7,4 +7,5 @@ export const router = createRouter({
     { path: "/", name: "Home", component: SongsList },
     { path: "/manage", name: "Manage", component: ManageSongs },
   ],
+  linkExactActiveClass: "text-sky-700",
 });
