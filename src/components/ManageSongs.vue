@@ -112,6 +112,17 @@
   </div>
 </template>
 <script>
-export default {};
+import { authStore } from "@/stores/authStore";
+export default {
+  name: "ManageSongs",
+  beforeRouteEnter(to, from, next) {
+    const auth = authStore();
+    if (auth.userLoggedIn) {
+      next();
+    } else {
+      next("/");
+    }
+  },
+};
 </script>
 <style></style>

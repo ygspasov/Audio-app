@@ -84,6 +84,7 @@ export default {
           // Sign-out successful.
           console.log("Sign-out successful.");
           this.logOutUser();
+          this.$router.push("/");
         })
         .catch((error) => {
           console.log("error", error);
