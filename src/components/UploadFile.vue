@@ -52,6 +52,7 @@
   </div>
 </template>
 <script>
+import { storage, ref, uploadBytes } from "@/firebase/firebase";
 export default {
   data() {
     return {
@@ -62,8 +63,18 @@ export default {
     uploadFiles(event) {
       this.isDraggedOver = false;
       const files = [...event.dataTransfer.files];
+      files.forEach((file) => {
+        const storageRef = ref(storage);
+        const songsRef = ref(storageRef, `songs/${file.name}`);
+        uploadBytes(songsRef, file).then((snapshot) => {
+          console.log("Uploaded a blob or file!", snapshot);
+        });
+      });
       console.log("files", files);
     },
+  },
+  created() {
+    console.log("storage", storage);
   },
 };
 </script>
