@@ -44,13 +44,16 @@
       </label>
     </div>
     <div class="mb-4" v-for="upload of uploads" :key="upload.name">
-      <div class="my-1 text-base font-medium text-blue-700 dark:text-blue-500">
-        {{ upload.name }}
+      <div
+        class="my-1 text-base font-medium text-blue-700 dark:text-blue-500"
+        :class="upload.text_class"
+      >
+        <i :class="upload.icon" class="mr-2"></i>{{ upload.name }}
       </div>
       <div class="w-full bg-gray-200 rounded-full h-2.5 mb-4 dark:bg-gray-700">
         <div
-          class="bg-blue-600 h-2.5 rounded-full"
-          :class="'bg-blue-600'"
+          class="h-2.5 rounded-full"
+          :class="upload.variant"
           :style="{ width: upload.current_progress + '%' }"
         ></div>
       </div>
@@ -76,7 +79,15 @@ export default {
         const task = uploadBytes(songsRef, file).then((snapshot) => {
           console.log("Uploaded a blob or file!", snapshot);
         });
-        const uploadIndex = this.uploads.push({ task, current_progress: 0, name: file.name }) - 1;
+        const uploadIndex =
+          this.uploads.push({
+            task,
+            current_progress: 0,
+            name: file.name,
+            variant: "bg-blue-600",
+            icon: "fa-solid fa-spinner",
+            text_class: "",
+          }) - 1;
         const uploadTask = uploadBytesResumable(songsRef, file);
 
         uploadTask.on("state_changed", (snapshot) => {
