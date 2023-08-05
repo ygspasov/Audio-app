@@ -43,20 +43,27 @@
         <input id="dropzone-file" type="file" class="hidden" />
       </label>
     </div>
-    <div class="my-1 text-base font-medium text-blue-700 dark:text-blue-500">
-      Gamma Ray - Pale Rider
-    </div>
-    <div class="w-full bg-gray-200 rounded-full h-2.5 mb-4 dark:bg-gray-700">
-      <div class="bg-blue-600 h-2.5 rounded-full" style="width: 45%"></div>
+    <div class="mb-4" v-for="upload of uploads" :key="upload.name">
+      <div class="my-1 text-base font-medium text-blue-700 dark:text-blue-500">
+        {{ upload.name }}
+      </div>
+      <div class="w-full bg-gray-200 rounded-full h-2.5 mb-4 dark:bg-gray-700">
+        <div
+          class="bg-blue-600 h-2.5 rounded-full"
+          :class="'bg-blue-600'"
+          :style="{ width: upload.current_progress + '%' }"
+        ></div>
+      </div>
     </div>
   </div>
 </template>
 <script>
-import { storage, ref, uploadBytes } from "@/firebase/firebase";
+import { storage, ref, uploadBytes, uploadBytesResumable } from "@/firebase/firebase";
 export default {
   data() {
     return {
       isDraggedOver: false,
+      uploads: [],
     };
   },
   methods: {
@@ -66,8 +73,15 @@ export default {
       files.forEach((file) => {
         const storageRef = ref(storage);
         const songsRef = ref(storageRef, `songs/${file.name}`);
-        uploadBytes(songsRef, file).then((snapshot) => {
+        const task = uploadBytes(songsRef, file).then((snapshot) => {
           console.log("Uploaded a blob or file!", snapshot);
+        });
+        const uploadIndex = this.uploads.push({ task, current_progress: 0, name: file.name }) - 1;
+        const uploadTask = uploadBytesResumable(songsRef, file);
+
+        uploadTask.on("state_changed", (snapshot) => {
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          this.uploads[uploadIndex].current_progress = progress;
         });
       });
       console.log("files", files);
