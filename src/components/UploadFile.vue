@@ -61,7 +61,9 @@
   </div>
 </template>
 <script>
-import { storage, ref, uploadBytes, uploadBytesResumable } from "@/firebase/firebase";
+import { storage, ref, uploadBytes, uploadBytesResumable, auth } from "@/firebase/firebase";
+import { app, collection, addDoc, getFirestore } from "firebase/firestore";
+
 export default {
   data() {
     return {
@@ -76,12 +78,14 @@ export default {
       files.forEach((file) => {
         const storageRef = ref(storage);
         const songsRef = ref(storageRef, `songs/${file.name}`);
-        const task = uploadBytes(songsRef, file).then((snapshot) => {
+        let fileData = {};
+        uploadBytes(songsRef, file).then((snapshot) => {
           console.log("Uploaded a blob or file!", snapshot);
+          fileData = snapshot;
         });
         const uploadIndex =
           this.uploads.push({
-            task,
+            fileData,
             current_progress: 0,
             name: file.name,
             variant: "bg-blue-600",
@@ -93,6 +97,7 @@ export default {
         uploadTask.on(
           "state_changed",
           (snapshot) => {
+            console.log("snapshot", snapshot);
             const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
             this.uploads[uploadIndex].current_progress = progress;
             if (this.uploads[uploadIndex].current_progress == 100) {
@@ -105,10 +110,31 @@ export default {
             this.uploads[uploadIndex].text_class = "text-red-500";
             console.log("error", error);
           },
-          () => {
+          async () => {
+            console.log("fileData", fileData);
+
+            const song = {
+              uid: auth.currentUser.uid,
+              display_name: auth.currentUser.displayName,
+              original_name: fileData.metadata.name,
+              modified_name: fileData.metadata.name,
+              genre: "",
+              comment_count: 0,
+            };
+            // song.url to be added
+            console.log("song", song);
             this.uploads[uploadIndex].variant = "bg-green-500";
             this.uploads[uploadIndex].icon = "fa-solid fa-check";
             this.uploads[uploadIndex].text_class = "text-green-500";
+
+            const db = getFirestore(app);
+            await addDoc(collection(db, "songs"), song)
+              .then(() => {
+                console.log("collection updated");
+              })
+              .catch((error) => {
+                console.log("error", error);
+              });
           }
         );
       });
