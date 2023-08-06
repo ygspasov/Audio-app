@@ -61,7 +61,14 @@
   </div>
 </template>
 <script>
-import { storage, ref, uploadBytes, uploadBytesResumable, auth } from "@/firebase/firebase";
+import {
+  storage,
+  ref,
+  uploadBytes,
+  uploadBytesResumable,
+  auth,
+  getDownloadURL,
+} from "@/firebase/firebase";
 import { app, collection, addDoc, getFirestore } from "firebase/firestore";
 
 export default {
@@ -120,9 +127,15 @@ export default {
               modified_name: fileData.metadata.name,
               genre: "",
               comment_count: 0,
+              song_url: "",
             };
             // song.url to be added
             console.log("song", song);
+            await getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+              console.log("File available at", downloadURL);
+              song.song_url = downloadURL;
+            });
+
             this.uploads[uploadIndex].variant = "bg-green-500";
             this.uploads[uploadIndex].icon = "fa-solid fa-check";
             this.uploads[uploadIndex].text_class = "text-green-500";
