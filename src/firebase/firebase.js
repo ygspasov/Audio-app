@@ -1,5 +1,5 @@
 import firebase from "firebase/compat/app";
-import "firebase/auth";
+import { getAuth } from "firebase/auth";
 import { getStorage, ref, uploadBytes, uploadBytesResumable } from "firebase/storage";
 
 const firebaseConfig = {
@@ -12,4 +12,5 @@ const firebaseConfig = {
 
 const app = firebase.initializeApp(firebaseConfig);
 const storage = getStorage(app);
-export { app, storage, ref, uploadBytes, uploadBytesResumable };
+const auth = getAuth();
+export { app, storage, ref, uploadBytes, uploadBytesResumable, auth };
