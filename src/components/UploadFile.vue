@@ -85,15 +85,32 @@ export default {
             current_progress: 0,
             name: file.name,
             variant: "bg-blue-600",
-            icon: "fa-solid fa-spinner",
+            icon: "fa-solid fa-spinner fa-spin",
             text_class: "",
           }) - 1;
         const uploadTask = uploadBytesResumable(songsRef, file);
 
-        uploadTask.on("state_changed", (snapshot) => {
-          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          this.uploads[uploadIndex].current_progress = progress;
-        });
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {
+            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            this.uploads[uploadIndex].current_progress = progress;
+            if (this.uploads[uploadIndex].current_progress == 100) {
+              this.uploads[uploadIndex].icon = "";
+            }
+          },
+          (error) => {
+            this.uploads[uploadIndex].variant = "bg-red-500";
+            this.uploads[uploadIndex].icon = "fa-solid fa-xmark";
+            this.uploads[uploadIndex].text_class = "text-red-500";
+            console.log("error", error);
+          },
+          () => {
+            this.uploads[uploadIndex].variant = "bg-green-500";
+            this.uploads[uploadIndex].icon = "fa-solid fa-check";
+            this.uploads[uploadIndex].text_class = "text-green-500";
+          }
+        );
       });
       console.log("files", files);
     },
