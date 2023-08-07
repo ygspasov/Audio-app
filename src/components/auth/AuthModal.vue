@@ -90,7 +90,7 @@
 <script>
 import AuthForms from "./AuthForms.vue";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { app, collection, addDoc, getFirestore } from "firebase/firestore";
+import { app, collection, addDoc, getFirestore } from "@/firebase/firebase";
 import { mapState, mapActions } from "pinia";
 import { authStore } from "@/stores/authStore";
 
