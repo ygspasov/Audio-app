@@ -40,7 +40,13 @@
             SVG, PNG, JPG or GIF (MAX. 800x400px)
           </p>
         </div>
-        <input id="dropzone-file" type="file" class="hidden" />
+        <input
+          id="dropzone-file"
+          type="file"
+          class="hidden"
+          multiple
+          @change="uploadFiles($event)"
+        />
       </label>
     </div>
     <div class="mb-4" v-for="upload of uploads" :key="upload.name">
@@ -84,7 +90,7 @@ export default {
   methods: {
     uploadFiles(event) {
       this.isDraggedOver = false;
-      const files = [...event.dataTransfer.files];
+      const files = event.dataTransfer ? [...event.dataTransfer.files] : [...event.target.files];
       files.forEach((file) => {
         const storageRef = ref(storage);
         const songsRef = ref(storageRef, `songs/${file.name}`);
