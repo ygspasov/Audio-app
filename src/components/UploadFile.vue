@@ -62,14 +62,17 @@
 </template>
 <script>
 import {
+  app,
   storage,
   ref,
   uploadBytes,
   uploadBytesResumable,
   auth,
   getDownloadURL,
+  collection,
+  addDoc,
+  getFirestore,
 } from "@/firebase/firebase";
-import { app, collection, addDoc, getFirestore } from "firebase/firestore";
 
 export default {
   data() {
