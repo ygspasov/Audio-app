@@ -1,5 +1,5 @@
 import firebase from "firebase/compat/app";
-import { getAuth } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
 import {
   getStorage,
   ref,
@@ -31,4 +31,6 @@ export {
   collection,
   addDoc,
   getFirestore,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
 };

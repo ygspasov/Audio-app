@@ -1,7 +1,5 @@
 import { defineStore } from "pinia";
-import "@/firebase/firebase";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-const auth = getAuth();
+import { auth, signInWithEmailAndPassword } from "@/firebase/firebase";
 
 export const authStore = defineStore("auth", {
   state: () => ({
