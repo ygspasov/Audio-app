@@ -3,7 +3,7 @@
     class="basis-1/2 mx-1 p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
   >
     <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">My Songs</h5>
-    <ul
+    <!-- <ul
       class="max-w-md space-y-1 text-gray-500 list-inside list-none dark:text-gray-400 divide-y divide-gray-200"
     >
       <li class="my-2">
@@ -52,7 +52,56 @@
       </li>
       <li><h3 class="text-xl">Song Name</h3></li>
       <li><h3 class="text-xl">Song Name</h3></li>
-    </ul>
+    </ul> -->
+
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+      <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+        <thead
+          class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
+        >
+          <tr>
+            <th scope="col" class="px-6 py-3">Song name</th>
+            <th scope="col" class="px-6 py-3">Artist</th>
+            <th scope="col" class="px-6 py-3">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+            <th
+              scope="row"
+              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+            >
+              Aces High
+            </th>
+            <td class="px-6 py-4">Iron Maiden</td>
+            <td class="flex items-center md:items-start justify-center md:justify-around px-6 py-4">
+              <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                >Edit</a
+              ><a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                >Delete</a
+              >
+            </td>
+          </tr>
+          <tr class="border-b bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
+            <th
+              scope="row"
+              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+            >
+              Seventh son of the seventh son
+            </th>
+            <td class="px-6 py-4">Iron Maiden</td>
+            <td class="flex items-center md:items-start justify-center md:justify-around px-6 py-4">
+              <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                >Edit</a
+              >
+              <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                >Delete</a
+              >
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
 <script>
