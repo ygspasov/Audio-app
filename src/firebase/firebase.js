@@ -7,7 +7,7 @@ import {
   uploadBytesResumable,
   getDownloadURL,
 } from "firebase/storage";
-import { collection, addDoc, getFirestore } from "firebase/firestore";
+import { collection, addDoc, getFirestore, getDocs } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDpZ71aLvxTtoPXJXE3K1kGK877yHfwpA4",
@@ -33,4 +33,5 @@ export {
   getFirestore,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
+  getDocs,
 };
