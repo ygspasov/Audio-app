@@ -78,31 +78,11 @@
               {{ song.original_name }}
             </th>
             <!-- <td class="px-6 py-4">Iron Maiden</td> -->
-            <td class="flex items-center md:items-start justify-center md:justify-around px-6 py-4">
-              <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                >Edit</a
-              ><a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                >Delete</a
-              >
+            <td class="flex items-center md:items-start justify-start px-6 py-4">
+              <a href="" class="mx-1"><i class="fa-solid fa-pen-to-square"></i></a
+              ><a href="" class="mx-1"><i class="fa-solid fa-trash mx-1"></i></a>
             </td>
           </tr>
-          <!-- <tr class="border-b bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
-            <th
-              scope="row"
-              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-            >
-              Seventh son of the seventh son
-            </th>
-            <td class="px-6 py-4">Iron Maiden</td>
-            <td class="flex items-center md:items-start justify-center md:justify-around px-6 py-4">
-              <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                >Edit</a
-              >
-              <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                >Delete</a
-              >
-            </td>
-          </tr> -->
         </tbody>
       </table>
     </div>
