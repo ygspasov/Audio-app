@@ -90,6 +90,8 @@
 </template>
 <script>
 import { collection, getDocs, getFirestore, app } from "@/firebase/firebase";
+import { mapState } from "pinia";
+import { musicStore } from "@/stores/musicStore";
 
 const db = getFirestore(app);
 
@@ -100,7 +102,9 @@ export default {
     };
   },
   methods: {
+    ...mapState(musicStore, ["songsLoaded"]),
     async getSongs() {
+      this.songs = [];
       const querySnapshot = await getDocs(collection(db, "songs"));
       querySnapshot.forEach((doc) => {
         // doc.data() is never undefined for query doc snapshots
@@ -108,6 +112,16 @@ export default {
         this.songs.push(doc.data());
       });
       console.log("songs", this.songs);
+    },
+  },
+  watch: {
+    dataLoaded() {
+      this.getSongs();
+    },
+  },
+  computed: {
+    dataLoaded() {
+      return this.songsLoaded();
     },
   },
   created() {

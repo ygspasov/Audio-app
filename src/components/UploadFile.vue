@@ -79,6 +79,8 @@ import {
   addDoc,
   getFirestore,
 } from "@/firebase/firebase";
+import { mapActions } from "pinia";
+import { musicStore } from "@/stores/musicStore";
 
 export default {
   data() {
@@ -88,6 +90,7 @@ export default {
     };
   },
   methods: {
+    ...mapActions(musicStore, ["loadSongs"]),
     uploadFiles(event) {
       this.isDraggedOver = false;
       const files = event.dataTransfer ? [...event.dataTransfer.files] : [...event.target.files];
@@ -153,6 +156,7 @@ export default {
             await addDoc(collection(db, "songs"), song)
               .then(() => {
                 console.log("collection updated");
+                this.loadSongs();
               })
               .catch((error) => {
                 console.log("error", error);
