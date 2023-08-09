@@ -61,19 +61,23 @@
         >
           <tr>
             <th scope="col" class="px-6 py-3">Song name</th>
-            <th scope="col" class="px-6 py-3">Artist</th>
+            <!-- <th scope="col" class="px-6 py-3">Artist</th> -->
             <th scope="col" class="px-6 py-3">Actions</th>
           </tr>
         </thead>
         <tbody>
-          <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+          <tr
+            class="bg-white border-b dark:bg-gray-900 dark:border-gray-700"
+            v-for="song in songs"
+            :key="song.uid"
+          >
             <th
               scope="row"
               class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
             >
-              Aces High
+              {{ song.original_name }}
             </th>
-            <td class="px-6 py-4">Iron Maiden</td>
+            <!-- <td class="px-6 py-4">Iron Maiden</td> -->
             <td class="flex items-center md:items-start justify-center md:justify-around px-6 py-4">
               <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
                 >Edit</a
@@ -82,7 +86,7 @@
               >
             </td>
           </tr>
-          <tr class="border-b bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
+          <!-- <tr class="border-b bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
             <th
               scope="row"
               class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
@@ -98,13 +102,37 @@
                 >Delete</a
               >
             </td>
-          </tr>
+          </tr> -->
         </tbody>
       </table>
     </div>
   </div>
 </template>
 <script>
-export default {};
+import { collection, getDocs, getFirestore, app } from "@/firebase/firebase";
+
+const db = getFirestore(app);
+
+export default {
+  data() {
+    return {
+      songs: [],
+    };
+  },
+  methods: {
+    async getSongs() {
+      const querySnapshot = await getDocs(collection(db, "songs"));
+      querySnapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+        // console.log(doc.id, " => ", doc.data());
+        this.songs.push(doc.data());
+      });
+      console.log("songs", this.songs);
+    },
+  },
+  created() {
+    this.getSongs();
+  },
+};
 </script>
 <style></style>
