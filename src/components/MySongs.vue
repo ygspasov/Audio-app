@@ -3,6 +3,7 @@
     class="basis-1/2 mx-1 p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
   >
     <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">My Songs</h5>
+    <!-- songsLoading: {{ songsLoading() }} -->
     <!-- <ul
       class="max-w-md space-y-1 text-gray-500 list-inside list-none dark:text-gray-400 divide-y divide-gray-200"
     >
@@ -90,7 +91,7 @@
 </template>
 <script>
 import { collection, getDocs, getFirestore, app } from "@/firebase/firebase";
-import { mapState } from "pinia";
+import { mapState, mapActions } from "pinia";
 import { musicStore } from "@/stores/musicStore";
 
 const db = getFirestore(app);
@@ -102,7 +103,8 @@ export default {
     };
   },
   methods: {
-    ...mapState(musicStore, ["songsLoaded"]),
+    ...mapState(musicStore, ["songsLoading"]),
+    ...mapActions(musicStore, ["loadSongs"]),
     async getSongs() {
       this.songs = [];
       const querySnapshot = await getDocs(collection(db, "songs"));
@@ -111,6 +113,8 @@ export default {
         // console.log(doc.id, " => ", doc.data());
         this.songs.push(doc.data());
       });
+      this.loadSongs("no");
+
       console.log("songs", this.songs);
     },
   },
@@ -121,7 +125,7 @@ export default {
   },
   computed: {
     dataLoaded() {
-      return this.songsLoaded();
+      return this.songsLoading();
     },
   },
   created() {

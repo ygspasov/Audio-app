@@ -156,7 +156,8 @@ export default {
             await addDoc(collection(db, "songs"), song)
               .then(() => {
                 console.log("collection updated");
-                this.loadSongs();
+                this.loadSongs("yes");
+                this.uploads = [];
               })
               .catch((error) => {
                 console.log("error", error);
