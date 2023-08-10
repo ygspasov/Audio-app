@@ -2,11 +2,11 @@ import { defineStore } from "pinia";
 
 export const musicStore = defineStore("music", {
   state: () => ({
-    songsLoaded: false,
+    songsLoading: false,
   }),
   actions: {
-    loadSongs() {
-      this.songsLoaded = true;
+    loadSongs(val) {
+      val === "yes" ? (this.songsLoading = true) : (this.songsLoading = false);
     },
   },
 });
