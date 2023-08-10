@@ -91,16 +91,27 @@ export default {
   },
   methods: {
     ...mapActions(musicStore, ["loadSongs"]),
-    uploadFiles(event) {
+    async uploadFiles(event) {
       this.isDraggedOver = false;
       const files = event.dataTransfer ? [...event.dataTransfer.files] : [...event.target.files];
+
       files.forEach((file) => {
+        let song = {};
         const storageRef = ref(storage);
         const songsRef = ref(storageRef, `songs/${file.name}`);
         let fileData = {};
         uploadBytes(songsRef, file).then((snapshot) => {
           console.log("Uploaded a blob or file!", snapshot);
           fileData = snapshot;
+          song = {
+            uid: auth.currentUser.uid,
+            display_name: auth.currentUser.displayName,
+            original_name: fileData.metadata.name,
+            modified_name: fileData.metadata.name,
+            genre: "",
+            comment_count: 0,
+            song_url: "",
+          };
         });
         const uploadIndex =
           this.uploads.push({
@@ -118,9 +129,12 @@ export default {
           (snapshot) => {
             console.log("snapshot", snapshot);
             const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            this.uploads[uploadIndex].current_progress = progress;
-            if (this.uploads[uploadIndex].current_progress == 100) {
-              this.uploads[uploadIndex].icon = "";
+            0;
+            if (this.uploads.length > 0) {
+              this.uploads[uploadIndex].current_progress = progress;
+              if (this.uploads[uploadIndex].current_progress == 100) {
+                this.uploads[uploadIndex].icon = "";
+              }
             }
           },
           (error) => {
@@ -132,15 +146,6 @@ export default {
           async () => {
             console.log("fileData", fileData);
 
-            const song = {
-              uid: auth.currentUser.uid,
-              display_name: auth.currentUser.displayName,
-              original_name: fileData.metadata.name,
-              modified_name: fileData.metadata.name,
-              genre: "",
-              comment_count: 0,
-              song_url: "",
-            };
             // song.url to be added
             console.log("song", song);
             await getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
@@ -148,9 +153,11 @@ export default {
               song.song_url = downloadURL;
             });
 
-            this.uploads[uploadIndex].variant = "bg-green-500";
-            this.uploads[uploadIndex].icon = "fa-solid fa-check";
-            this.uploads[uploadIndex].text_class = "text-green-500";
+            if (this.uploads.length > 0) {
+              this.uploads[uploadIndex].variant = "bg-green-500";
+              this.uploads[uploadIndex].icon = "fa-solid fa-check";
+              this.uploads[uploadIndex].text_class = "text-green-500";
+            }
 
             const db = getFirestore(app);
             await addDoc(collection(db, "songs"), song)
