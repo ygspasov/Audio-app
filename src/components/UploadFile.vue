@@ -175,9 +175,7 @@ export default {
       console.log("files", files);
     },
   },
-  created() {
-    console.log("storage", storage);
-  },
+  created() {},
 };
 </script>
 <style></style>
