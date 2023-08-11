@@ -90,11 +90,12 @@
   </div>
 </template>
 <script>
-import { collection, getDocs, getFirestore, app } from "@/firebase/firebase";
+import { collection, getDocs, getFirestore, app, query, where, getAuth } from "@/firebase/firebase";
 import { mapState, mapActions } from "pinia";
 import { musicStore } from "@/stores/musicStore";
 
 const db = getFirestore(app);
+const songsRef = collection(db, "songs");
 
 export default {
   data() {
@@ -107,15 +108,14 @@ export default {
     ...mapActions(musicStore, ["loadSongs"]),
     async getSongs() {
       this.songs = [];
-      const querySnapshot = await getDocs(collection(db, "songs"));
+      const auth = getAuth();
+      const q = query(songsRef, where("uid", "==", auth.currentUser.uid));
+      const querySnapshot = await getDocs(q);
+      console.log("querySnapshot", querySnapshot);
       querySnapshot.forEach((doc) => {
-        // doc.data() is never undefined for query doc snapshots
-        // console.log(doc.id, " => ", doc.data());
         this.songs.push(doc.data());
       });
       this.loadSongs("no");
-
-      console.log("songs", this.songs);
     },
   },
   watch: {
