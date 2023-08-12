@@ -80,8 +80,8 @@
             </th>
             <!-- <td class="px-6 py-4">Iron Maiden</td> -->
             <td class="flex items-center md:items-start justify-start px-6 py-4">
-              <a href="" class="mx-1"><i class="fa-solid fa-pen-to-square"></i></a
-              ><a href="" class="mx-1"><i class="fa-solid fa-trash mx-1"></i></a>
+              <EditModal />
+              <a href="" class="mx-1"><i class="fa-solid fa-trash mx-1"></i></a>
             </td>
           </tr>
         </tbody>
@@ -93,6 +93,7 @@
 import { collection, getDocs, getFirestore, app, query, where, getAuth } from "@/firebase/firebase";
 import { mapState, mapActions } from "pinia";
 import { musicStore } from "@/stores/musicStore";
+import EditModal from "./EditModal.vue";
 
 const db = getFirestore(app);
 const songsRef = collection(db, "songs");
@@ -103,6 +104,7 @@ export default {
       songs: [],
     };
   },
+  components: { EditModal },
   methods: {
     ...mapState(musicStore, ["songsLoading"]),
     ...mapActions(musicStore, ["loadSongs"]),
