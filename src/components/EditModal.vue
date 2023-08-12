@@ -33,12 +33,12 @@
           <span class="sr-only">Close modal</span>
         </button>
         <div class="p-6 text-center">
-          <h3 class="text-xl">Song Name</h3>
+          <h3 class="text-left text-xl">Song Name</h3>
           <form class="mt-2">
             <div class="mb-6">
               <label
                 for="songName"
-                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >Song Title</label
               >
               <input
@@ -52,7 +52,7 @@
             <div class="mb-6">
               <label
                 for="genre"
-                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >Genre</label
               >
               <input
