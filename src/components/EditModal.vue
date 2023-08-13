@@ -42,17 +42,8 @@ import { Modal, initFlowbite } from "flowbite";
 import EditForm from "./EditForm.vue";
 
 export default {
-  data() {
-    return {
-      songName: "",
-      songGenre: "",
-    };
-  },
   components: { EditForm },
   methods: {
-    update() {
-      console.log("songName, songGenre", this.songName, this.songGenre);
-    },
     closeModal() {
       const $targetEl = document.getElementById("popup-modal");
       const modal = new Modal($targetEl);
