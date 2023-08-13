@@ -33,7 +33,6 @@
           <span class="sr-only">Close modal</span>
         </button>
         <div class="p-6 text-center">
-          <h3 class="text-left text-xl">Song Name</h3>
           <form class="mt-2">
             <div class="mb-6">
               <label
@@ -43,6 +42,7 @@
               >
               <input
                 type="songName"
+                v-model="songName"
                 id="songName"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Iron Maiden - Seventh son of the seventh son"
@@ -57,6 +57,7 @@
               >
               <input
                 type="genre"
+                v-model="songGenre"
                 id="genre"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Heavy metal"
@@ -66,15 +67,16 @@
             <div class="flex flex-col md:flex-row">
               <button
                 type="submit"
+                @click.prevent="update"
                 class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               >
-                Submit
+                Update
               </button>
-              <button
+              <!-- <button
                 class="my-2 md:my-0 ml-0 md:ml-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               >
                 Go Back
-              </button>
+              </button> -->
             </div>
           </form>
         </div>
@@ -82,16 +84,28 @@
     </div>
   </div>
 </template>
-<script setup>
-import { onMounted } from "vue";
-import { initFlowbite } from "flowbite";
-
-// initialize components based on data attribute selectors
-onMounted(() => {
-  initFlowbite();
-});
-</script>
 <script>
-export default {};
+import { Modal, initFlowbite } from "flowbite";
+
+export default {
+  data() {
+    return {
+      songName: "",
+      songGenre: "",
+    };
+  },
+
+  methods: {
+    update() {
+      const $targetEl = document.getElementById("popup-modal");
+      const modal = new Modal($targetEl);
+      console.log("songName, songGenre", this.songName, this.songGenre);
+      modal.hide();
+    },
+  },
+  created() {
+    initFlowbite();
+  },
+};
 </script>
 <style></style>
