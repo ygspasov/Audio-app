@@ -10,11 +10,19 @@
         <input
           type="songName"
           v-model="songName"
+          @blur="v$.songName.$touch"
           id="songName"
           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           placeholder="Iron Maiden - Seventh son of the seventh son"
           required
         />
+        <p
+          class="mt-2 text-sm text-red-600 dark:text-red-500"
+          v-for="error of v$.songName.$errors"
+          :key="error.$uid"
+        >
+          <strong>{{ error.$message }}</strong>
+        </p>
       </div>
       <div class="mb-6">
         <label
@@ -25,12 +33,20 @@
         <input
           type="genre"
           v-model="songGenre"
+          @blur="v$.songGenre.$touch"
           id="genre"
           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           placeholder="Heavy metal"
           required
         />
       </div>
+      <p
+        class="mt-2 text-sm text-red-600 dark:text-red-500"
+        v-for="error of v$.songGenre.$errors"
+        :key="error.$uid"
+      >
+        <strong>{{ error.$message }}</strong>
+      </p>
       <div class="flex flex-col md:flex-row">
         <button
           type="submit"
@@ -50,7 +66,14 @@
 </template>
 <script>
 import { useVuelidate } from "@vuelidate/core";
+import { required } from "@vuelidate/validators";
 export default {
+  data() {
+    return {
+      songName: "",
+      songGenre: "",
+    };
+  },
   setup() {
     return { v$: useVuelidate() };
   },
@@ -59,6 +82,15 @@ export default {
       console.log("closeModal");
       this.$emit("close-modal");
     },
+  },
+  validations() {
+    return {
+      songName: { required },
+      songGenre: { required },
+    };
+  },
+  created() {
+    console.log("v$ editForm", this.v$);
   },
 };
 </script>
