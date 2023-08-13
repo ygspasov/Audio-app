@@ -93,11 +93,16 @@ import { collection, getDocs, getFirestore, app, query, where, getAuth } from "@
 import { mapState, mapActions } from "pinia";
 import { musicStore } from "@/stores/musicStore";
 import EditModal from "./EditModal.vue";
+import { useVuelidate } from "@vuelidate/core";
+// import { required } from '@vuelidate/validators'
 
 const db = getFirestore(app);
 const songsRef = collection(db, "songs");
 
 export default {
+  setup() {
+    return { v$: useVuelidate() };
+  },
   data() {
     return {
       songs: [],
@@ -131,6 +136,7 @@ export default {
   },
   created() {
     this.getSongs();
+    console.log("v$", this.v$);
   },
 };
 </script>
