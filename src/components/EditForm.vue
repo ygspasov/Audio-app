@@ -3,22 +3,22 @@
     <form class="mt-2">
       <div class="mb-6">
         <label
-          for="songName"
+          for="songTitle"
           class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >Song Title</label
         >
         <input
-          type="songName"
-          v-model="songName"
-          @blur="v$.songName.$touch"
-          id="songName"
+          type="songTitle"
+          v-model="songTitle"
+          @blur="v$.songTitle.$touch"
+          id="songTitle"
           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           placeholder="Iron Maiden - Seventh son of the seventh son"
           required
         />
         <p
           class="mt-2 text-sm text-left text-red-600 dark:text-red-500"
-          v-for="error of v$.songName.$errors"
+          v-for="error of v$.songTitle.$errors"
           :key="error.$uid"
         >
           <strong>{{ error.$message }}</strong>
@@ -66,11 +66,11 @@
 </template>
 <script>
 import { useVuelidate } from "@vuelidate/core";
-import { required } from "@vuelidate/validators";
+import { required, helpers } from "@vuelidate/validators";
 export default {
   data() {
     return {
-      songName: "",
+      songTitle: "",
       songGenre: "",
     };
   },
@@ -85,8 +85,8 @@ export default {
   },
   validations() {
     return {
-      songName: { required },
-      songGenre: { required },
+      songTitle: { required: helpers.withMessage("Song Title cannot be empty", required) },
+      songGenre: { required: helpers.withMessage("Song Genre cannot be empty", required) },
     };
   },
   created() {
