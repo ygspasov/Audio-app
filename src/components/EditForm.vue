@@ -17,7 +17,7 @@
           required
         />
         <p
-          class="mt-2 text-sm text-red-600 dark:text-red-500"
+          class="mt-2 text-sm text-left text-red-600 dark:text-red-500"
           v-for="error of v$.songName.$errors"
           :key="error.$uid"
         >
@@ -41,13 +41,13 @@
         />
       </div>
       <p
-        class="mt-2 text-sm text-red-600 dark:text-red-500"
+        class="mt-2 text-sm text-left text-red-600 dark:text-red-500"
         v-for="error of v$.songGenre.$errors"
         :key="error.$uid"
       >
         <strong>{{ error.$message }}</strong>
       </p>
-      <div class="flex flex-col md:flex-row">
+      <div class="flex flex-col md:flex-row mt-2">
         <button
           type="submit"
           @click.prevent="closeModal"
