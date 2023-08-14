@@ -3,6 +3,7 @@
     class="basis-1/2 mx-1 p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
   >
     <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">My Songs</h5>
+    songId: {{ songId() }}
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
       <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
         <thead
@@ -27,7 +28,10 @@
               {{ song.original_name }}
             </th>
             <!-- <td class="px-6 py-4">Iron Maiden</td> -->
-            <td class="flex items-center md:items-start justify-start px-6 py-4">
+            <td
+              class="flex items-center md:items-start justify-start px-6 py-4"
+              @click="edit(song.id)"
+            >
               <EditModal />
               <a href="" class="mx-1"><i class="fa-solid fa-trash mx-1"></i></a>
             </td>
@@ -54,8 +58,8 @@ export default {
   },
   components: { EditModal },
   methods: {
-    ...mapState(musicStore, ["songsLoading"]),
-    ...mapActions(musicStore, ["loadSongs"]),
+    ...mapState(musicStore, ["songsLoading", "songId"]),
+    ...mapActions(musicStore, ["loadSongs", "setSongId"]),
     async getSongs() {
       this.songs = [];
       const auth = getAuth();
@@ -63,9 +67,15 @@ export default {
       const querySnapshot = await getDocs(q);
       console.log("querySnapshot", querySnapshot);
       querySnapshot.forEach((doc) => {
-        this.songs.push(doc.data());
+        let song = doc.data();
+        song.id = doc.id;
+        this.songs.push(song);
       });
       this.loadSongs("no");
+    },
+    edit(id) {
+      console.log("song id", id);
+      this.setSongId(id);
     },
   },
   watch: {
@@ -80,6 +90,7 @@ export default {
   },
   created() {
     this.getSongs();
+    console.log("songs", this.songs);
   },
 };
 </script>

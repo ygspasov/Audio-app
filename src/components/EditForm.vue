@@ -1,5 +1,5 @@
 <template>
-  <div class="p-6 text-center">
+  <div class="p-6 text-center" v-on:click.stop>
     <form class="mt-2">
       <div class="mb-6">
         <label
@@ -51,11 +51,12 @@
         <button
           :disabled="v$.$invalid"
           type="submit"
-          @click.prevent="closeModal"
+          @click.prevent="update"
           class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 disabled:opacity-60"
         >
           Update
         </button>
+        songId: {{ songId() }}
         <!-- <button
           class="my-2 md:my-0 ml-0 md:ml-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
         >
@@ -66,8 +67,12 @@
   </div>
 </template>
 <script>
+import { mapState, mapActions } from "pinia";
+import { musicStore } from "@/stores/musicStore";
 import { useVuelidate } from "@vuelidate/core";
 import { required, helpers, alpha } from "@vuelidate/validators";
+import { doc, updateDoc, db } from "@/firebase/firebase";
+
 export default {
   data() {
     return {
@@ -79,8 +84,18 @@ export default {
     return { v$: useVuelidate() };
   },
   methods: {
-    closeModal() {
+    ...mapState(musicStore, ["songId"]),
+    ...mapActions(musicStore, ["loadSongs", "setSongId"]),
+    async update() {
       this.$emit("close-modal");
+      const songRef = doc(db, "songs", this.songId());
+      console.log("songTitle, songGenre, songId", this.songTitle, this.songGenre, this.songId);
+      await updateDoc(songRef, {
+        original_name: this.songTitle,
+      });
+      (this.songTitle = ""), (this.songGenre = "");
+      //   this.setSongId("");
+      this.loadSongs("yes");
     },
   },
   validations() {

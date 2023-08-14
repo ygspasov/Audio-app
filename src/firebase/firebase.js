@@ -7,7 +7,16 @@ import {
   uploadBytesResumable,
   getDownloadURL,
 } from "firebase/storage";
-import { collection, addDoc, getFirestore, getDocs, query, where } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  getFirestore,
+  getDocs,
+  query,
+  where,
+  doc,
+  updateDoc,
+} from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDpZ71aLvxTtoPXJXE3K1kGK877yHfwpA4",
@@ -19,6 +28,7 @@ const firebaseConfig = {
 
 const app = firebase.initializeApp(firebaseConfig);
 const storage = getStorage(app);
+const db = getFirestore(app);
 const auth = getAuth();
 export {
   app,
@@ -37,4 +47,7 @@ export {
   getDocs,
   query,
   where,
+  doc,
+  updateDoc,
+  db,
 };
