@@ -49,9 +49,10 @@
       </p>
       <div class="flex flex-col md:flex-row mt-2">
         <button
+          :disabled="v$.$invalid"
           type="submit"
           @click.prevent="closeModal"
-          class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 disabled:opacity-60"
         >
           Update
         </button>
@@ -66,7 +67,7 @@
 </template>
 <script>
 import { useVuelidate } from "@vuelidate/core";
-import { required, helpers } from "@vuelidate/validators";
+import { required, helpers, alpha } from "@vuelidate/validators";
 export default {
   data() {
     return {
@@ -79,14 +80,16 @@ export default {
   },
   methods: {
     closeModal() {
-      console.log("closeModal");
       this.$emit("close-modal");
     },
   },
   validations() {
     return {
       songTitle: { required: helpers.withMessage("Song Title cannot be empty", required) },
-      songGenre: { required: helpers.withMessage("Song Genre cannot be empty", required) },
+      songGenre: {
+        required: helpers.withMessage("Song Genre cannot be empty", required),
+        alpha: helpers.withMessage("Song Genre should be alphabetical", alpha),
+      },
     };
   },
   created() {
