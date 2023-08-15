@@ -3,15 +3,14 @@
     class="basis-1/2 mx-1 p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
   >
     <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">My Songs</h5>
-    songId: {{ songId() }}
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
       <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
         <thead
           class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
         >
           <tr>
-            <th scope="col" class="px-6 py-3">Song name</th>
-            <!-- <th scope="col" class="px-6 py-3">Artist</th> -->
+            <th scope="col" class="px-6 py-3">Song</th>
+            <th scope="col" class="px-6 py-3">Genre</th>
             <th scope="col" class="px-6 py-3">Actions</th>
           </tr>
         </thead>
@@ -20,20 +19,21 @@
             class="bg-white border-b dark:bg-gray-900 dark:border-gray-700"
             v-for="song in songs"
             :key="song.uid"
+            v-show="song"
           >
             <th
               scope="row"
               class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
             >
-              {{ song.original_name }}
+              {{ song.modified_name || song.original_name }}
             </th>
-            <!-- <td class="px-6 py-4">Iron Maiden</td> -->
+            <td class="px-6 py-4">{{ song.genre || "Unspecified" }}</td>
             <td
               class="flex items-center md:items-start justify-start px-6 py-4"
               @click="edit(song.id)"
             >
               <EditModal />
-              <a href="" class="mx-1"><i class="fa-solid fa-trash mx-1"></i></a>
+              <a class="mx-1"><i class="fa-solid fa-trash mx-1"></i></a>
             </td>
           </tr>
         </tbody>
@@ -71,7 +71,10 @@ export default {
         song.id = doc.id;
         this.songs.push(song);
       });
+
       this.loadSongs("no");
+      //Fixing a bug with the edit modal not working on last table row
+      this.songs.push("");
     },
     edit(id) {
       console.log("song id", id);

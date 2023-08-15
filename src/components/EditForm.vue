@@ -56,7 +56,6 @@
         >
           Update
         </button>
-        songId: {{ songId() }}
         <!-- <button
           class="my-2 md:my-0 ml-0 md:ml-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
         >
@@ -91,10 +90,11 @@ export default {
       const songRef = doc(db, "songs", this.songId());
       console.log("songTitle, songGenre, songId", this.songTitle, this.songGenre, this.songId);
       await updateDoc(songRef, {
-        original_name: this.songTitle,
+        modified_name: this.songTitle,
+        genre: this.songGenre,
       });
       (this.songTitle = ""), (this.songGenre = "");
-      //   this.setSongId("");
+      this.setSongId("");
       this.loadSongs("yes");
     },
   },
