@@ -90,16 +90,19 @@ export default {
       this.songs = [];
       const auth = getAuth();
       const q = query(songsRef, where("uid", "==", auth.currentUser.uid));
-      const querySnapshot = await getDocs(q);
-      if (querySnapshot) {
-        this.loading = false;
-      }
-      console.log("querySnapshot", querySnapshot);
-      querySnapshot.forEach((doc) => {
-        let song = doc.data();
-        song.id = doc.id;
-        this.songs.push(song);
-      });
+      // const querySnapshot = await getDocs(q);
+      await getDocs(q)
+        .then((querySnapshot) => {
+          console.log("querySnapshot", querySnapshot);
+          querySnapshot.forEach((doc) => {
+            let song = doc.data();
+            song.id = doc.id;
+            this.songs.push(song);
+          });
+        })
+        .then(() => {
+          this.loading = false;
+        });
 
       this.loadSongs("no");
       //Fixing a bug with the edit modal not working on last table row
