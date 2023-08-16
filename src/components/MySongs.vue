@@ -6,6 +6,18 @@
       <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">My Songs</h5>
       <i class="fa-solid fa-music"></i>
     </div>
+    <!-- Loading indicator -->
+    <div
+      v-if="loading"
+      class="flex items-center justify-center w-100 h-56 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700 my-2"
+    >
+      <div
+        class="px-3 py-1 text-sm font-medium leading-none text-center text-blue-800 bg-blue-200 rounded-full animate-pulse dark:bg-blue-900 dark:text-blue-200"
+      >
+        loading...
+      </div>
+    </div>
+
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
       <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
         <thead
@@ -66,6 +78,7 @@ export default {
   data() {
     return {
       songs: [],
+      loading: false,
     };
   },
   components: { EditModal },
@@ -73,10 +86,14 @@ export default {
     ...mapState(musicStore, ["songsLoading", "songId"]),
     ...mapActions(musicStore, ["loadSongs", "setSongId"]),
     async getSongs() {
+      this.loading = true;
       this.songs = [];
       const auth = getAuth();
       const q = query(songsRef, where("uid", "==", auth.currentUser.uid));
       const querySnapshot = await getDocs(q);
+      if (querySnapshot) {
+        this.loading = false;
+      }
       console.log("querySnapshot", querySnapshot);
       querySnapshot.forEach((doc) => {
         let song = doc.data();
