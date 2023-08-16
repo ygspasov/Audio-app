@@ -70,7 +70,7 @@ import { mapState, mapActions } from "pinia";
 import { musicStore } from "@/stores/musicStore";
 import { useVuelidate } from "@vuelidate/core";
 import { required, helpers, alpha } from "@vuelidate/validators";
-import { doc, updateDoc, db } from "@/firebase/firebase";
+import { doc, getDoc, updateDoc, db } from "@/firebase/firebase";
 
 export default {
   data() {
@@ -87,7 +87,7 @@ export default {
     ...mapActions(musicStore, ["loadSongs", "setSongId"]),
     async update() {
       this.$emit("close-modal");
-      const songRef = doc(db, "songs", this.songId());
+      const songRef = doc(db, "songs", this.songID);
       console.log("songTitle, songGenre, songId", this.songTitle, this.songGenre, this.songId);
       await updateDoc(songRef, {
         modified_name: this.songTitle,
@@ -96,6 +96,18 @@ export default {
       (this.songTitle = ""), (this.songGenre = "");
       this.setSongId("");
       this.loadSongs("yes");
+    },
+    async getSong() {
+      const songsRef = doc(db, "songs", this.songId());
+      const songSnap = await getDoc(songsRef);
+      if (songSnap.exists()) {
+        console.log("Document data:", songSnap.data());
+        this.songTitle = songSnap.data().modified_name || songSnap.data().original_name;
+        this.songGenre = songSnap.data().genre || "Unspecified";
+      } else {
+        // docSnap.data() will be undefined in this case
+        console.log("No such document!");
+      }
     },
   },
   validations() {
@@ -106,6 +118,17 @@ export default {
         alpha: helpers.withMessage("Song Genre should be alphabetical", alpha),
       },
     };
+  },
+  computed: {
+    songID() {
+      return this.songId();
+    },
+  },
+  watch: {
+    songID(newID, oldID) {
+      console.log("newID,oldID", newID, oldID);
+      this.getSong();
+    },
   },
   created() {
     console.log("v$ editForm", this.v$);
