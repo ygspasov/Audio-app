@@ -31,12 +31,11 @@
               {{ song.modified_name || song.original_name }}
             </th>
             <td class="px-6 py-4">{{ song.genre || "Unspecified" }}</td>
-            <td
-              class="flex items-center md:items-start justify-start px-6 py-4"
-              @click="edit(song.id)"
-            >
-              <EditModal />
-              <a class="mx-1"><i class="fa-solid fa-trash mx-1"></i></a>
+            <td class="flex items-center md:items-start justify-start px-6 py-4">
+              <a @click="edit(song.id)"><EditModal /></a>
+              <a @click="deleteSong(song.id)" class="mx-1"
+                ><i class="fa-solid fa-trash mx-1"></i
+              ></a>
             </td>
           </tr>
         </tbody>
@@ -45,7 +44,17 @@
   </div>
 </template>
 <script>
-import { collection, getDocs, getFirestore, app, query, where, getAuth } from "@/firebase/firebase";
+import {
+  collection,
+  getDocs,
+  getFirestore,
+  app,
+  query,
+  where,
+  getAuth,
+  deleteDoc,
+  doc,
+} from "@/firebase/firebase";
 import { mapState, mapActions } from "pinia";
 import { musicStore } from "@/stores/musicStore";
 import EditModal from "./EditModal.vue";
@@ -82,6 +91,13 @@ export default {
     edit(id) {
       console.log("song id", id);
       this.setSongId(id);
+    },
+    async deleteSong(id) {
+      this.setSongId(id);
+      await deleteDoc(doc(db, "songs", this.songId())).then(() => {
+        console.log("song deleted");
+        this.getSongs();
+      });
     },
   },
   watch: {
