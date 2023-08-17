@@ -82,6 +82,7 @@ import {
 } from "@/firebase/firebase";
 import { mapActions } from "pinia";
 import { musicStore } from "@/stores/musicStore";
+import { alertStore } from "@/stores/alertStore";
 
 export default {
   data() {
@@ -92,6 +93,7 @@ export default {
   },
   methods: {
     ...mapActions(musicStore, ["loadSongs"]),
+    ...mapActions(alertStore, ["setAlert"]),
     async uploadFiles(event) {
       this.isDraggedOver = false;
       const files = event.dataTransfer ? [...event.dataTransfer.files] : [...event.target.files];
@@ -165,6 +167,7 @@ export default {
               .then(() => {
                 console.log("collection updated");
                 this.loadSongs("yes");
+                this.setAlert("Song added", "text-green-800 border-green-300 bg-green-50");
                 this.uploads = [];
               })
               .catch((error) => {
@@ -176,6 +179,7 @@ export default {
       console.log("files", files);
     },
   },
+  computed: {},
   created() {},
 };
 </script>

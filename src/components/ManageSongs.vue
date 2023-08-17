@@ -11,14 +11,17 @@
 </template>
 <script>
 import { authStore } from "@/stores/authStore";
+import { alertStore } from "@/stores/alertStore";
+import { mapState } from "pinia";
+import AlertMessage from "./AlertMessage.vue";
 import UploadFile from "./UploadFile.vue";
 import MySongs from "./MySongs.vue";
-import AlertMessage from "./AlertMessage.vue";
+
 export default {
   name: "ManageSongs",
   data() {
     return {
-      showAlert: false,
+      // showAlert: false,
     };
   },
   components: {
@@ -33,6 +36,10 @@ export default {
     } else {
       next("/");
     }
+  },
+  methods: {},
+  computed: {
+    ...mapState(alertStore, ["showAlert", "alertText"]),
   },
 };
 </script>
