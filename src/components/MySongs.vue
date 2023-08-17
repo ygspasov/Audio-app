@@ -69,6 +69,7 @@ import {
 } from "@/firebase/firebase";
 import { mapState, mapActions } from "pinia";
 import { musicStore } from "@/stores/musicStore";
+import { alertStore } from "@/stores/alertStore";
 import EditModal from "./EditModal.vue";
 
 const db = getFirestore(app);
@@ -85,6 +86,7 @@ export default {
   methods: {
     ...mapState(musicStore, ["songsLoading", "songId"]),
     ...mapActions(musicStore, ["loadSongs", "setSongId"]),
+    ...mapActions(alertStore, ["setAlert"]),
     async getSongs() {
       this.loading = true;
       this.songs = [];
@@ -119,6 +121,7 @@ export default {
       this.setSongId(id);
       await deleteDoc(doc(db, "songs", this.songId())).then(() => {
         console.log("song deleted");
+        this.setAlert("Song deleted", "text-green-800 border-green-300 bg-green-50");
         this.getSongs();
       });
     },
