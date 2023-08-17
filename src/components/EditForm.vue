@@ -71,6 +71,7 @@ import { musicStore } from "@/stores/musicStore";
 import { useVuelidate } from "@vuelidate/core";
 import { required, helpers, alpha } from "@vuelidate/validators";
 import { doc, getDoc, updateDoc, db } from "@/firebase/firebase";
+import { alertStore } from "@/stores/alertStore";
 
 export default {
   data() {
@@ -85,6 +86,7 @@ export default {
   methods: {
     ...mapState(musicStore, ["songId"]),
     ...mapActions(musicStore, ["loadSongs", "setSongId"]),
+    ...mapActions(alertStore, ["setAlert"]),
     async update() {
       this.$emit("close-modal");
       const songRef = doc(db, "songs", this.songID);
@@ -92,10 +94,13 @@ export default {
       await updateDoc(songRef, {
         modified_name: this.songTitle,
         genre: this.songGenre,
+      }).then(() => {
+        this.setAlert("Song updated", "text-green-800 border-green-300 bg-green-50");
+        this.songTitle = "";
+        this.songGenre = "";
+        this.setSongId("");
+        this.loadSongs("yes");
       });
-      (this.songTitle = ""), (this.songGenre = "");
-      this.setSongId("");
-      this.loadSongs("yes");
     },
     async getSong() {
       const songsRef = doc(db, "songs", this.songId());
