@@ -90,7 +90,6 @@ export default {
       this.songs = [];
       const auth = getAuth();
       const q = query(songsRef, where("uid", "==", auth.currentUser.uid));
-      // const querySnapshot = await getDocs(q);
       await getDocs(q)
         .then((querySnapshot) => {
           console.log("querySnapshot", querySnapshot);
@@ -101,6 +100,10 @@ export default {
           });
         })
         .then(() => {
+          this.loading = false;
+        })
+        .catch((err) => {
+          console.log("err", err);
           this.loading = false;
         });
 
