@@ -23,7 +23,7 @@
         <thead
           class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
         >
-          <tr>
+          <tr class="tr-class">
             <th scope="col" class="px-6 py-3">Song</th>
             <th scope="col" class="px-6 py-3">Genre</th>
             <th scope="col" class="px-6 py-3">Actions</th>
@@ -31,7 +31,7 @@
         </thead>
         <tbody>
           <tr
-            class="bg-white border-b dark:bg-gray-900 dark:border-gray-700"
+            class="tr-class bg-white border-b dark:bg-gray-900 dark:border-gray-700"
             v-for="song in songs"
             :key="song.uid"
             v-show="song"
