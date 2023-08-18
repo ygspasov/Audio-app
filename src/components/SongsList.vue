@@ -6,18 +6,15 @@
           <tr class="w-full">
             <th class="td-class">Song</th>
             <th class="td-class">Genre</th>
-            <th class="td-class">Status</th>
+            <th class="td-class">Comments</th>
           </tr>
         </thead>
         <tbody class="" v-for="song in songs" :key="song.id">
           <tr class="tr-class">
             <td class="td-class text-center">{{ song.modified_name }}</td>
             <td class="td-class text-center">{{ song.genre || "Unspecified" }}</td>
-            <td class="td-class flex">
-              <span
-                class="mx-auto rounded-md bg-green-600/50 px-4 py-px text-xs font-semibold uppercase text-green-900 antialiased"
-                >Active</span
-              >
+            <td class="td-class text-center">
+              <i class="fa-regular fa-comment mr-2"></i>{{ song.comment_count }}
             </td>
           </tr>
         </tbody>
@@ -80,6 +77,7 @@ export default {
   created() {
     if (this.userLoggedIn) {
       this.getSongs();
+      console.log("songs", this.songs);
     }
   },
 };
