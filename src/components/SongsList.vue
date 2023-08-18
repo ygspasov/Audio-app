@@ -1,64 +1,88 @@
 <template>
   <div>
     <div class="flex items-center justify-center ml-4 sm:ml-0">
-      <table class="text-sm border-separate border-spacing-y-2">
+      <table v-if="userLoggedIn" class="w-full md:w-3/4 text-sm border-separate border-spacing-y-2">
         <thead class="w-full">
           <tr class="w-full">
             <th class="td-class">Song</th>
-            <th class="td-class">Artist</th>
+            <th class="td-class">Genre</th>
             <th class="td-class">Status</th>
           </tr>
         </thead>
-        <tbody class="">
+        <tbody class="" v-for="song in songs" :key="song.id">
           <tr class="tr-class">
-            <td class="td-class">Frodo Baggins</td>
-            <td class="td-class">Fellowship of the Ring</td>
+            <td class="td-class text-center">{{ song.modified_name }}</td>
+            <td class="td-class text-center">{{ song.genre || "Unspecified" }}</td>
             <td class="td-class flex">
               <span
                 class="mx-auto rounded-md bg-green-600/50 px-4 py-px text-xs font-semibold uppercase text-green-900 antialiased"
                 >Active</span
-              >
-            </td>
-          </tr>
-
-          <tr class="tr-class">
-            <td class="td-class">Peregrin Took</td>
-            <td class="td-class">Fellowship of the Ring</td>
-            <td class="td-class flex">
-              <span
-                class="mx-auto rounded-md bg-green-600/50 px-4 py-px text-xs font-semibold uppercase text-green-900 antialiased"
-                >Active</span
-              >
-            </td>
-          </tr>
-
-          <tr class="tr-class">
-            <td class="td-class">Bilbo Baggins</td>
-            <td class="td-class">Thorin’s Company</td>
-            <td class="td-class flex">
-              <span
-                class="mx-auto rounded-md bg-yellow-600/50 px-4 py-px text-xs font-semibold uppercase text-yellow-900 antialiased"
-                >Pending</span
-              >
-            </td>
-          </tr>
-          <tr class="tr-class">
-            <td class="td-class suspended-text">Boromir of Gondor</td>
-            <td class="td-class suspended-text">Fellowship of the Ring</td>
-            <td class="td-class flex">
-              <span
-                class="mx-auto rounded-md bg-red-600/50 px-4 py-px text-xs font-semibold uppercase text-red-100 antialiased"
-                >Suspended</span
               >
             </td>
           </tr>
         </tbody>
       </table>
+      <p v-else class="text-red-600">Please, sign in to access your music.</p>
     </div>
   </div>
 </template>
 <script>
-export default {};
+import { collection, getFirestore, getDocs, app, query, where, getAuth } from "@/firebase/firebase";
+import { musicStore } from "@/stores/musicStore";
+import { mapActions, mapState } from "pinia";
+import { authStore } from "@/stores/authStore";
+const db = getFirestore(app);
+const songsRef = collection(db, "songs");
+const auth = getAuth();
+export default {
+  data() {
+    return {
+      songs: [],
+    };
+  },
+  methods: {
+    ...mapActions(musicStore, ["loadSongs", "setSongId"]),
+    async getSongs() {
+      this.loading = true;
+      this.songs = [];
+
+      const q = query(songsRef, where("uid", "==", auth.currentUser.uid));
+      getDocs(q)
+        .then((querySnapshot) => {
+          console.log("querySnapshot", querySnapshot);
+          querySnapshot.forEach((doc) => {
+            let song = doc.data();
+            song.id = doc.id;
+            this.songs.push(song);
+          });
+        })
+        .then(() => {
+          this.loading = false;
+        })
+        .catch((err) => {
+          console.log("err", err);
+          this.loading = false;
+        });
+
+      this.loadSongs("no");
+    },
+  },
+  computed: {
+    ...mapState(authStore, ["userLoggedIn"]),
+  },
+  watch: {
+    userLoggedIn(val) {
+      if (val === true) {
+        this.getSongs();
+      }
+    },
+  },
+  created() {
+    if (this.userLoggedIn) {
+      this.getSongs();
+    }
+  },
+};
 </script>
 <style>
 @media only screen and (max-width: 640px) {
