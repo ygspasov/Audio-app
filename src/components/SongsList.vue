@@ -88,15 +88,17 @@ export default {
       }
       this.pendingRequest = true;
 
-      const rest = query(
-        songsRef,
-        where("uid", "==", auth.currentUser.uid),
-        orderBy("original_name"),
-        startAfter(this.lastDoc),
-        limit(this.resultsPerPage)
-      );
-      this.getDocuments(rest);
-      this.pendingRequest = false;
+      if (this.lastDoc) {
+        const rest = query(
+          songsRef,
+          where("uid", "==", auth.currentUser.uid),
+          orderBy("original_name"),
+          startAfter(this.lastDoc),
+          limit(this.resultsPerPage)
+        );
+        this.getDocuments(rest);
+        this.pendingRequest = false;
+      }
     },
     handleScroll() {
       console.log("handleScroll");
