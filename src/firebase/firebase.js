@@ -18,6 +18,10 @@ import {
   doc,
   updateDoc,
   deleteDoc,
+  limit,
+  startAfter,
+  startAt,
+  orderBy,
 } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -49,9 +53,13 @@ export {
   getDoc,
   getDocs,
   query,
+  limit,
   where,
   doc,
   updateDoc,
   db,
   deleteDoc,
+  startAfter,
+  startAt,
+  orderBy,
 };

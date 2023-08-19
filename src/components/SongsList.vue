@@ -24,7 +24,18 @@
   </div>
 </template>
 <script>
-import { collection, getFirestore, getDocs, app, query, where, getAuth } from "@/firebase/firebase";
+import {
+  collection,
+  getFirestore,
+  getDocs,
+  app,
+  query,
+  limit,
+  where,
+  getAuth,
+  startAfter,
+  orderBy,
+} from "@/firebase/firebase";
 import { musicStore } from "@/stores/musicStore";
 import { mapActions, mapState } from "pinia";
 import { authStore } from "@/stores/authStore";
@@ -35,16 +46,21 @@ export default {
   data() {
     return {
       songs: [],
+      resultsPerPage: 10,
+      pendingRequest: false,
+      lastDoc: {},
     };
   },
   methods: {
     ...mapActions(musicStore, ["loadSongs", "setSongId"]),
-    async getSongs() {
-      this.loading = true;
-      this.songs = [];
-
-      const q = query(songsRef, where("uid", "==", auth.currentUser.uid));
-      getDocs(q)
+    getDocuments(rest) {
+      let q = query(
+        songsRef,
+        where("uid", "==", auth.currentUser.uid),
+        orderBy("original_name"),
+        limit(this.resultsPerPage)
+      );
+      getDocs(rest || q)
         .then((querySnapshot) => {
           console.log("querySnapshot", querySnapshot);
           querySnapshot.forEach((doc) => {
@@ -52,6 +68,8 @@ export default {
             song.id = doc.id;
             this.songs.push(song);
           });
+          // Get the last visible document
+          this.lastDoc = querySnapshot.docs[querySnapshot.docs.length - 1];
         })
         .then(() => {
           this.loading = false;
@@ -62,6 +80,32 @@ export default {
         });
 
       this.loadSongs("no");
+      this.pendingRequest = false;
+    },
+    async getSongs() {
+      if (this.pendingRequest) {
+        return;
+      }
+      this.pendingRequest = true;
+
+      const rest = query(
+        songsRef,
+        where("uid", "==", auth.currentUser.uid),
+        orderBy("original_name"),
+        startAfter(this.lastDoc),
+        limit(this.resultsPerPage)
+      );
+      this.getDocuments(rest);
+    },
+    handleScroll() {
+      console.log("handleScroll");
+      const { scrollTop, offsetHeight } = document.documentElement;
+      const { innerHeight } = window;
+      const bottomOfWindow = Math.round(scrollTop) + innerHeight === offsetHeight;
+      if (bottomOfWindow) {
+        console.log("Bottom of window reached");
+        this.getSongs();
+      }
     },
   },
   computed: {
@@ -70,15 +114,19 @@ export default {
   watch: {
     userLoggedIn(val) {
       if (val === true) {
-        this.getSongs();
+        this.getDocuments();
       }
     },
   },
   created() {
     if (this.userLoggedIn) {
-      this.getSongs();
+      this.getDocuments();
       console.log("songs", this.songs);
+      window.addEventListener("scroll", this.handleScroll);
     }
+  },
+  beforeUnmount() {
+    window.removeEventListener("scroll", this.handleScroll);
   },
 };
 </script>
