@@ -46,7 +46,7 @@ export default {
   data() {
     return {
       songs: [],
-      resultsPerPage: 10,
+      resultsPerPage: 20,
       pendingRequest: false,
       lastDoc: {},
     };
@@ -96,6 +96,7 @@ export default {
         limit(this.resultsPerPage)
       );
       this.getDocuments(rest);
+      this.pendingRequest = false;
     },
     handleScroll() {
       console.log("handleScroll");
