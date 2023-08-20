@@ -14,7 +14,7 @@ const router = createRouter({
     },
     { path: "/:pathMatch(.*)*", name: "NotFound", component: NotFound },
     {
-      path: "/song/:id",
+      path: "/song/:id:songTitle:genre:comment_count",
       name: "SingeSong",
       component: SingleSong,
     },

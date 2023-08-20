@@ -108,7 +108,7 @@ export default {
       if (songSnap.exists()) {
         console.log("Document data:", songSnap.data());
         this.songTitle = songSnap.data().modified_name || songSnap.data().original_name;
-        this.songGenre = songSnap.data().genre || "Unspecified";
+        this.songGenre = songSnap.data().genre;
       } else {
         // docSnap.data() will be undefined in this case
         console.log("No such document!");

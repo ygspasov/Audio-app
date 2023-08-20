@@ -111,7 +111,7 @@ export default {
             display_name: auth.currentUser.displayName,
             original_name: fileData.metadata.name,
             modified_name: fileData.metadata.name,
-            genre: "",
+            genre: "Unspecified",
             comment_count: 0,
             song_url: "",
           };

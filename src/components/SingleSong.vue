@@ -1,6 +1,6 @@
 <template>
   <div class="max-w-6xl mx-auto">
-    <h1 class="text-2xl text-center">Single Song {{ $route.params.id }}</h1>
+    <h1 class="text-2xl text-center">{{ $route.params.songTitle }} {{ $route.params.genre }}</h1>
     <form class="my-4">
       <div
         class="divide-y divide-solid w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600"
