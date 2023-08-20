@@ -1,7 +1,11 @@
 <template>
   <div>
     <div class="flex items-center justify-center ml-4 sm:ml-0">
-      <table v-if="userLoggedIn" class="w-full md:w-3/4 text-sm border-separate border-spacing-y-2">
+      <table
+        id="song-list"
+        v-if="userLoggedIn"
+        class="w-full md:w-3/4 text-sm border-separate border-spacing-y-2"
+      >
         <thead class="w-full">
           <tr class="w-full">
             <th class="td-class">Song</th>
@@ -9,11 +13,15 @@
             <th class="td-class">Comments</th>
           </tr>
         </thead>
-        <tbody class="" v-for="song in songs" :key="song.id">
+        <tbody class="w-100" v-for="song in songs" :key="song.id">
           <tr class="tr-class">
-            <td class="td-class text-center">{{ song.modified_name }}</td>
-            <td class="td-class text-center">{{ song.genre || "Unspecified" }}</td>
-            <td class="td-class text-center">
+            <td class="td-class text-center text-lg">
+              <router-link class="block" :to="{ name: 'SingeSong', params: { id: song.id } }">
+                {{ song.modified_name }}</router-link
+              >
+            </td>
+            <td class="td-class text-center text-lg">{{ song.genre || "Unspecified" }}</td>
+            <td class="td-class text-center text-lg">
               <i class="fa-regular fa-comment mr-2"></i>{{ song.comment_count }}
             </td>
           </tr>
@@ -133,7 +141,7 @@ export default {
   },
 };
 </script>
-<style>
+<style scoped>
 @media only screen and (max-width: 640px) {
   thead {
     display: none !important;
