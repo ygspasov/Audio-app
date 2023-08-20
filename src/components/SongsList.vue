@@ -16,11 +16,22 @@
         <tbody class="w-100" v-for="song in songs" :key="song.id">
           <tr class="tr-class">
             <td class="td-class text-center text-lg">
-              <router-link class="block" :to="{ name: 'SingeSong', params: { id: song.id } }">
+              <router-link
+                class="block"
+                :to="{
+                  name: 'SingeSong',
+                  params: {
+                    id: song.id,
+                    genre: song.genre,
+                    comment_count: song.comment_count,
+                    songTitle: song.modified_name,
+                  },
+                }"
+              >
                 {{ song.modified_name }}</router-link
               >
             </td>
-            <td class="td-class text-center text-lg">{{ song.genre || "Unspecified" }}</td>
+            <td class="td-class text-center text-lg">{{ song.genre }}</td>
             <td class="td-class text-center text-lg">
               <i class="fa-regular fa-comment mr-2"></i>{{ song.comment_count }}
             </td>
