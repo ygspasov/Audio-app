@@ -1,6 +1,51 @@
 <template>
-  <div>
+  <div class="max-w-6xl mx-auto">
     <h1 class="text-2xl text-center">Single Song {{ $route.params.id }}</h1>
+    <form class="my-4">
+      <div
+        class="w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600"
+      >
+        <div class="px-4 py-2 bg-white rounded-t-lg dark:bg-gray-800">
+          <label for="comment" class="sr-only">Your comment</label>
+          <textarea
+            id="comment"
+            rows="4"
+            class="w-full px-0 text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400"
+            placeholder="Write a comment..."
+            required
+          ></textarea>
+        </div>
+        <div class="flex items-center justify-between px-3 py-2 border-t dark:border-gray-600">
+          <button
+            type="submit"
+            class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800"
+          >
+            Post comment
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <dl
+      class="max-w-6xl text-gray-600 divide-y divide-gray-200 dark:text-white dark:divide-gray-700"
+    >
+      <div class="flex flex-col pb-3">
+        <dt class="mb-1 text-black-800 text-lg md:text-lg dark:text-gray-400 font-semibold">
+          Yavor Spasov
+        </dt>
+        <dd class="text-lg text-gray-600">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus, quaerat. Sit
+          incidunt sapiente facilis vero.
+        </dd>
+      </div>
+      <div class="flex flex-col py-3">
+        <dt class="mb-1 text-gray-800 md:text-lg dark:text-gray-400 font-semibold">Yavor Spasov</dt>
+        <dd class="text-lg text-gray-600">
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vel nostrum odit reprehenderit
+          enim nam pariatur modi aperiam dolore.
+        </dd>
+      </div>
+    </dl>
   </div>
 </template>
 <script>
