@@ -3,8 +3,11 @@
     <h1 class="text-2xl text-center">Single Song {{ $route.params.id }}</h1>
     <form class="my-4">
       <div
-        class="w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600"
+        class="divide-y divide-solid w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600"
       >
+        <div class="w-full bg-white p-4 flex align-center justify-between">
+          <span>Comments 15</span><span><i class="fa-regular fa-comment mr-2"></i></span>
+        </div>
         <div class="px-4 py-2 bg-white rounded-t-lg dark:bg-gray-800">
           <label for="comment" class="sr-only">Your comment</label>
           <textarea
