@@ -1,5 +1,6 @@
 <template>
   <div>
+    <HeroSection />
     <div class="flex items-center justify-center ml-4 sm:ml-0">
       <table
         id="song-list"
@@ -58,6 +59,7 @@ import {
 import { musicStore } from "@/stores/musicStore";
 import { mapActions, mapState } from "pinia";
 import { authStore } from "@/stores/authStore";
+import HeroSection from "@/components/HeroSection.vue";
 const db = getFirestore(app);
 const songsRef = collection(db, "songs");
 const auth = getAuth();
@@ -70,6 +72,7 @@ export default {
       lastDoc: {},
     };
   },
+  components: { HeroSection },
   methods: {
     ...mapActions(musicStore, ["loadSongs", "setSongId"]),
     getDocuments(rest) {
