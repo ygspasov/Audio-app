@@ -1,6 +1,30 @@
 <template>
   <div class="max-w-6xl mx-auto">
-    <h1 class="text-2xl text-center">{{ $route.params.songTitle }} - {{ $route.params.genre }}</h1>
+    <div class="w-full mx-auto mb-4 bg-white rounded-xl overflow-hidden">
+      <div class="md:flex">
+        <div class="md:shrink-0">
+          <img
+            class="h-48 w-full object-cover md:h-full md:w-80"
+            src="@/assets/streaming.webp"
+            alt="Modern building architecture"
+          />
+        </div>
+        <div class="p-8">
+          <div class="uppercase tracking-wide text-md text-indigo-600 font-semibold">
+            Song: {{ $route.params.songTitle }}
+          </div>
+          <a
+            href="#"
+            class="block mt-1 text-lg leading-tight font-medium text-black hover:underline"
+            >Genre: {{ $route.params.genre }}</a
+          >
+          <!-- <p class="mt-2 text-slate-500">
+            Looking to take your team away on a retreat to enjoy awesome food and take in some
+            sunshine? We have a list of places to do just that.
+          </p> -->
+        </div>
+      </div>
+    </div>
     <form class="my-4">
       <div
         class="divide-y divide-solid w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600"
