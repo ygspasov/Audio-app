@@ -46,6 +46,7 @@
             :disabled="v$.$invalid"
             type="submit"
             class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800 disabled:opacity-60"
+            @click.prevent="addComment"
           >
             Post comment
           </button>
@@ -78,6 +79,8 @@
 <script>
 import { useVuelidate } from "@vuelidate/core";
 import { helpers, minLength } from "@vuelidate/validators";
+import { auth } from "@/firebase/firebase";
+
 export default {
   name: "SingleSong",
   setup() {
@@ -97,6 +100,23 @@ export default {
         minLength: minLength(3),
       },
     };
+  },
+  methods: {
+    async addComment() {
+      const comment = {
+        text: this.comment,
+        datePosted: new Date().toString(),
+        songId: this.$route.params.id,
+        name: this.currentUser,
+      };
+      this.comment = "";
+      console.log("comment", comment);
+    },
+  },
+  computed: {
+    currentUser() {
+      return auth.currentUser.email.match(/^([^@]*)@/)[1];
+    },
   },
 };
 </script>
