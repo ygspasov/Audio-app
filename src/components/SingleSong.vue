@@ -13,11 +13,9 @@
           <div class="uppercase tracking-wide text-md text-indigo-600 font-semibold">
             Song: {{ $route.params.songTitle }}
           </div>
-          <a
-            href="#"
-            class="block mt-1 text-lg leading-tight font-medium text-black hover:underline"
-            >Genre: {{ $route.params.genre }}</a
-          >
+          <div class="block mt-1 text-lg leading-tight font-medium text-black">
+            Genre: {{ $route.params.genre }}
+          </div>
           <!-- <p class="mt-2 text-slate-500">
             Looking to take your team away on a retreat to enjoy awesome food and take in some
             sunshine? We have a list of places to do just that.
@@ -35,6 +33,7 @@
         <div class="px-4 py-2 bg-white rounded-t-lg dark:bg-gray-800">
           <label for="comment" class="sr-only">Your comment</label>
           <textarea
+            v-model="comment"
             id="comment"
             rows="4"
             class="w-full px-0 text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400"
@@ -44,8 +43,9 @@
         </div>
         <div class="flex items-center justify-between px-3 py-2 border-t dark:border-gray-600">
           <button
+            :disabled="v$.$invalid"
             type="submit"
-            class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800"
+            class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800 disabled:opacity-60"
           >
             Post comment
           </button>
@@ -76,8 +76,28 @@
   </div>
 </template>
 <script>
+import { useVuelidate } from "@vuelidate/core";
+import { helpers, minLength } from "@vuelidate/validators";
 export default {
   name: "SingleSong",
+  setup() {
+    return { v$: useVuelidate() };
+  },
+  data() {
+    return {
+      comment: "",
+    };
+  },
+  validations() {
+    return {
+      comment: {
+        requiredIf: helpers.withMessage("Comment is required", (val) => {
+          return val.length > 0;
+        }),
+        minLength: minLength(3),
+      },
+    };
+  },
 };
 </script>
 <style></style>
