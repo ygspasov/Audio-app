@@ -5,6 +5,7 @@ export const authStore = defineStore("auth", {
   state: () => ({
     userLoggedIn: false,
     userEmail: "",
+    displayName: "",
   }),
   actions: {
     loginUser(email) {
@@ -22,6 +23,7 @@ export const authStore = defineStore("auth", {
           console.log("userCredential", userCredential);
           this.userLoggedIn = true;
           this.userEmail = email;
+          this.displayName = email.match(/^([^@]*)@/)[1];
           // Signed in
           // const user = userCredential.user;
           // ...
