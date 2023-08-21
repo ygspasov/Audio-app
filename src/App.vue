@@ -1,14 +1,13 @@
 <template>
   <div class="mx-4">
-    <Navbar></Navbar>
-    <HeroSection />
-    <router-view></router-view>
+    <Navbar />
+
+    <router-view />
   </div>
 </template>
 
 <script>
 import Navbar from "./components/NavBar.vue";
-import HeroSection from "./components/HeroSection.vue";
 
 import { mapState, mapActions } from "pinia";
 import { authStore } from "@/stores/authStore";
@@ -21,7 +20,7 @@ export default {
   data() {
     return {};
   },
-  components: { Navbar, HeroSection },
+  components: { Navbar },
   computed: {
     ...mapState(authStore, ["userLoggedIn"]),
   },
