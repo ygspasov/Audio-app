@@ -23,6 +23,8 @@
         </div>
       </div>
     </div>
+    <AlertMessage v-if="showAlert" />
+
     <form class="my-4" v-if="userLoggedIn()">
       <div
         class="divide-y divide-solid w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600"
@@ -80,11 +82,14 @@
 import { useVuelidate } from "@vuelidate/core";
 import { helpers, minLength } from "@vuelidate/validators";
 import { auth, db, addDoc, collection } from "@/firebase/firebase";
-import { mapState } from "pinia";
+import { mapState, mapActions } from "pinia";
 import { authStore } from "@/stores/authStore";
+import { alertStore } from "@/stores/alertStore";
+import AlertMessage from "./AlertMessage.vue";
 
 export default {
   name: "SingleSong",
+
   setup() {
     return { v$: useVuelidate() };
   },
@@ -92,6 +97,9 @@ export default {
     return {
       comment: "",
     };
+  },
+  components: {
+    AlertMessage,
   },
   validations() {
     return {
@@ -105,6 +113,8 @@ export default {
   },
   methods: {
     ...mapState(authStore, ["userLoggedIn"]),
+
+    ...mapActions(alertStore, ["setAlert"]),
     async addComment() {
       const comment = {
         text: this.comment,
@@ -115,11 +125,14 @@ export default {
       };
       this.comment = "";
       console.log("comment", comment);
-      const docRef = await addDoc(collection(db, "comments"), comment);
-      console.log("Document written with ID: ", docRef.id);
+      await addDoc(collection(db, "comments"), comment).then((res) => {
+        this.setAlert("Comment added", "text-green-800 border-green-300 bg-green-50");
+        console.log("Response ", res.id);
+      });
     },
   },
   computed: {
+    ...mapState(alertStore, ["showAlert"]),
     currentUser() {
       return auth.currentUser.email.match(/^([^@]*)@/)[1];
     },
