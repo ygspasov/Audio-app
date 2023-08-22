@@ -79,7 +79,7 @@
 <script>
 import { useVuelidate } from "@vuelidate/core";
 import { helpers, minLength } from "@vuelidate/validators";
-import { auth } from "@/firebase/firebase";
+import { auth, db, addDoc, collection } from "@/firebase/firebase";
 
 export default {
   name: "SingleSong",
@@ -108,9 +108,12 @@ export default {
         datePosted: new Date().toString(),
         songId: this.$route.params.id,
         name: this.currentUser,
+        uid: auth.currentUser.uid,
       };
       this.comment = "";
       console.log("comment", comment);
+      const docRef = await addDoc(collection(db, "comments"), comment);
+      console.log("Document written with ID: ", docRef.id);
     },
   },
   computed: {
