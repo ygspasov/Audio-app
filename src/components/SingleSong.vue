@@ -23,7 +23,7 @@
         </div>
       </div>
     </div>
-    <form class="my-4">
+    <form class="my-4" v-if="userLoggedIn()">
       <div
         class="divide-y divide-solid w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600"
       >
@@ -80,6 +80,8 @@
 import { useVuelidate } from "@vuelidate/core";
 import { helpers, minLength } from "@vuelidate/validators";
 import { auth, db, addDoc, collection } from "@/firebase/firebase";
+import { mapState } from "pinia";
+import { authStore } from "@/stores/authStore";
 
 export default {
   name: "SingleSong",
@@ -102,6 +104,7 @@ export default {
     };
   },
   methods: {
+    ...mapState(authStore, ["userLoggedIn"]),
     async addComment() {
       const comment = {
         text: this.comment,
