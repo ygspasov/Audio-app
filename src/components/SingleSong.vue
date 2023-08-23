@@ -59,20 +59,12 @@
     <dl
       class="max-w-6xl text-gray-600 divide-y divide-gray-200 dark:text-white dark:divide-gray-700"
     >
-      <div class="flex flex-col pb-3">
+      <div class="flex flex-col pb-3" v-for="comment in comments" :key="comment.id">
         <dt class="mb-1 text-black-800 text-lg md:text-lg dark:text-gray-400 font-semibold">
-          Yavor Spasov
+          {{ comment.name }}
         </dt>
         <dd class="text-lg text-gray-600">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus, quaerat. Sit
-          incidunt sapiente facilis vero.
-        </dd>
-      </div>
-      <div class="flex flex-col py-3">
-        <dt class="mb-1 text-gray-800 md:text-lg dark:text-gray-400 font-semibold">Yavor Spasov</dt>
-        <dd class="text-lg text-gray-600">
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vel nostrum odit reprehenderit
-          enim nam pariatur modi aperiam dolore.
+          {{ comment.text }}
         </dd>
       </div>
     </dl>
@@ -81,7 +73,7 @@
 <script>
 import { useVuelidate } from "@vuelidate/core";
 import { helpers, minLength } from "@vuelidate/validators";
-import { auth, db, addDoc, collection } from "@/firebase/firebase";
+import { auth, db, addDoc, collection, getDocs } from "@/firebase/firebase";
 import { mapState, mapActions } from "pinia";
 import { authStore } from "@/stores/authStore";
 import { alertStore } from "@/stores/alertStore";
@@ -96,6 +88,7 @@ export default {
   data() {
     return {
       comment: "",
+      comments: [],
     };
   },
   components: {
@@ -128,7 +121,16 @@ export default {
       await addDoc(collection(db, "comments"), comment).then((res) => {
         this.setAlert("Comment added", "text-green-800 border-green-300 bg-green-50");
         console.log("Response ", res.id);
+        this.getComments();
       });
+    },
+    async getComments() {
+      this.comments = [];
+      const querySnapshot = await getDocs(collection(db, "comments"));
+      querySnapshot.forEach((comment) => {
+        this.comments.push(comment.data());
+      });
+      console.log("comments", this.comments);
     },
   },
   computed: {
@@ -136,6 +138,9 @@ export default {
     currentUser() {
       return auth.currentUser.email.match(/^([^@]*)@/)[1];
     },
+  },
+  created() {
+    this.getComments();
   },
 };
 </script>
