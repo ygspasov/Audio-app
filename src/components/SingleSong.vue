@@ -63,9 +63,14 @@
         <dt class="mb-1 text-black-800 text-lg md:text-lg dark:text-gray-400 font-semibold">
           {{ comment.name }}
         </dt>
-        <dd class="text-lg text-gray-600">
-          {{ comment.text }}
-        </dd>
+        <dl>
+          <dd class="text-md text-gray-600 mb-2 italic">
+            {{ comment.datePosted }}
+          </dd>
+          <dd class="text-lg text-gray-600">
+            {{ comment.text }}
+          </dd>
+        </dl>
       </div>
     </dl>
   </div>
@@ -73,7 +78,7 @@
 <script>
 import { useVuelidate } from "@vuelidate/core";
 import { helpers, minLength } from "@vuelidate/validators";
-import { auth, db, addDoc, collection, getDocs } from "@/firebase/firebase";
+import { auth, db, addDoc, collection, getDocs, where, query } from "@/firebase/firebase";
 import { mapState, mapActions } from "pinia";
 import { authStore } from "@/stores/authStore";
 import { alertStore } from "@/stores/alertStore";
@@ -118,6 +123,7 @@ export default {
       };
       this.comment = "";
       console.log("comment", comment);
+
       await addDoc(collection(db, "comments"), comment).then((res) => {
         this.setAlert("Comment added", "text-green-800 border-green-300 bg-green-50");
         console.log("Response ", res.id);
@@ -125,12 +131,15 @@ export default {
       });
     },
     async getComments() {
+      const commentsRef = collection(db, "comments");
+      let q = query(commentsRef, where("songId", "==", this.$route.params.id));
       this.comments = [];
-      const querySnapshot = await getDocs(collection(db, "comments"));
-      querySnapshot.forEach((comment) => {
-        this.comments.push(comment.data());
+      await getDocs(q).then((querySnapshot) => {
+        querySnapshot.forEach((comment) => {
+          this.comments.push(comment.data());
+        });
+        console.log("comments", this.comments);
       });
-      console.log("comments", this.comments);
     },
   },
   computed: {
@@ -141,6 +150,7 @@ export default {
   },
   created() {
     this.getComments();
+    console.log("this.$route.params.id", this.$route.params.id);
   },
 };
 </script>
