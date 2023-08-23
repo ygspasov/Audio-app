@@ -56,11 +56,22 @@
         </div>
       </div>
     </form>
+    <div class="mb-2 w-32">
+      <select
+        id="countries"
+        v-model="sort"
+        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+      >
+        <!-- <option selected>Newest</option> -->
+        <option value="1">Latest</option>
+        <option value="2">Oldest</option>
+      </select>
+    </div>
 
     <dl
       class="max-w-6xl text-gray-600 divide-y divide-gray-200 dark:text-white dark:divide-gray-700"
     >
-      <div class="flex flex-col pb-3" v-for="comment in comments" :key="comment.id">
+      <div class="flex flex-col pb-3" v-for="comment in sortedComments" :key="comment.id">
         <dt class="mb-1 text-black-800 text-lg md:text-lg dark:text-gray-400 font-semibold">
           {{ comment.name }}
         </dt>
@@ -95,6 +106,7 @@ export default {
     return {
       comment: "",
       comments: [],
+      sort: "1",
     };
   },
   components: {
@@ -156,10 +168,19 @@ export default {
     currentUser() {
       return auth.currentUser.email.match(/^([^@]*)@/)[1];
     },
+    sortedComments() {
+      //slice used to return a new array
+      return this.comments.slice().sort((a, b) => {
+        if (this.sort === "1") {
+          return new Date(b.datePosted) - new Date(a.datePosted);
+        } else {
+          return new Date(a.datePosted) - new Date(b.datePosted);
+        }
+      });
+    },
   },
   created() {
     this.getComments();
-    console.log("this.$route.params.id", this.$route.params.id);
   },
 };
 </script>
