@@ -21,7 +21,7 @@
                 class="block"
                 :to="{
                   name: 'SingeSong',
-                  params: {
+                  query: {
                     id: song.id,
                     genre: song.genre,
                     comment_count: song.comment_count,

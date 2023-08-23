@@ -11,10 +11,10 @@
         </div>
         <div class="p-8">
           <div class="uppercase tracking-wide text-md text-indigo-600 font-semibold">
-            Song: {{ $route.params.songTitle }}
+            Song: {{ $route.query.songTitle }}
           </div>
           <div class="block mt-1 text-lg leading-tight font-medium text-black">
-            Genre: {{ $route.params.genre }}
+            Genre: {{ $route.query.genre }}
           </div>
           <!-- <p class="mt-2 text-slate-500">
             Looking to take your team away on a retreat to enjoy awesome food and take in some
@@ -130,7 +130,7 @@ export default {
       const comment = {
         text: this.comment,
         datePosted: new Date().toString(),
-        songId: this.$route.params.id,
+        songId: this.$route.query.id,
         name: this.currentUser,
         uid: auth.currentUser.uid,
       };
@@ -145,7 +145,7 @@ export default {
     },
     async getComments() {
       const commentsRef = collection(db, "comments");
-      let q = query(commentsRef, where("songId", "==", this.$route.params.id));
+      let q = query(commentsRef, where("songId", "==", this.$route.query.id));
       this.comments = [];
       await getDocs(q).then((querySnapshot) => {
         querySnapshot.forEach((comment) => {
