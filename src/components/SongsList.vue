@@ -75,14 +75,14 @@ export default {
   components: { HeroSection },
   methods: {
     ...mapActions(musicStore, ["loadSongs", "setSongId"]),
-    getDocuments(rest) {
+    async getDocuments(rest) {
       let q = query(
         songsRef,
         where("uid", "==", auth.currentUser.uid),
         orderBy("original_name"),
         limit(this.resultsPerPage)
       );
-      getDocs(rest || q)
+      await getDocs(rest || q)
         .then((querySnapshot) => {
           console.log("querySnapshot", querySnapshot);
           querySnapshot.forEach((doc) => {
