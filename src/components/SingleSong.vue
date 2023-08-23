@@ -30,7 +30,8 @@
         class="divide-y divide-solid w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600"
       >
         <div class="w-full bg-white p-4 flex align-center justify-between">
-          <span>Comments 15</span><span><i class="fa-regular fa-comment mr-2"></i></span>
+          <span>Comments {{ comments.length }}</span
+          ><span><i class="fa-regular fa-comment mr-2"></i></span>
         </div>
         <div class="px-4 py-2 bg-white rounded-t-lg dark:bg-gray-800">
           <label for="comment" class="sr-only">Your comment</label>
@@ -65,7 +66,7 @@
         </dt>
         <dl>
           <dd class="text-md text-gray-600 mb-2 italic">
-            {{ comment.datePosted }}
+            {{ commentDate(comment.datePosted) }}
           </dd>
           <dd class="text-lg text-gray-600">
             {{ comment.text }}
@@ -139,6 +140,14 @@ export default {
           this.comments.push(comment.data());
         });
         console.log("comments", this.comments);
+      });
+    },
+    commentDate(val) {
+      return new Date(val).toLocaleDateString("en-us", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+        hour: "numeric",
       });
     },
   },
