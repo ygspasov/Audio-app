@@ -82,7 +82,7 @@
     </dl>
   </div>
 
-  <AudioControl />
+  <AudioControl @playSong="playSong" />
 </template>
 <script>
 import { useVuelidate } from "@vuelidate/core";
@@ -91,6 +91,7 @@ import { auth, db, addDoc, collection, getDocs, where, query } from "@/firebase/
 import { mapState, mapActions } from "pinia";
 import { authStore } from "@/stores/authStore";
 import { alertStore } from "@/stores/alertStore";
+import { playerStore } from "@/stores/playerStore";
 import AlertMessage from "./AlertMessage.vue";
 import AudioControl from "./AudioControl.vue";
 
@@ -123,7 +124,7 @@ export default {
   },
   methods: {
     ...mapState(authStore, ["userLoggedIn"]),
-
+    ...mapActions(playerStore, ["newSong"]),
     ...mapActions(alertStore, ["setAlert"]),
     async addComment() {
       const comment = {
@@ -161,9 +162,15 @@ export default {
         hour: "numeric",
       });
     },
+    playSong() {
+      // console.log("playing");
+      this.newSong(this.song);
+    },
   },
   computed: {
     ...mapState(alertStore, ["showAlert"]),
+    ...mapState(playerStore, ["currentSong"]),
+
     currentUser() {
       return auth.currentUser.email.match(/^([^@]*)@/)[1];
     },
