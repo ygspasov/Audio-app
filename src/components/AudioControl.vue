@@ -153,6 +153,12 @@
   </div>
 </template>
 <script>
-export default {};
+export default {
+  methods: {
+    playSong() {
+      this.$emit("playSong");
+    },
+  },
+};
 </script>
 <style></style>
