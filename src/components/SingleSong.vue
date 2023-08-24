@@ -16,10 +16,6 @@
           <div class="block mt-1 text-lg leading-tight font-medium text-black">
             Genre: {{ $route.query.genre }}
           </div>
-          <!-- <p class="mt-2 text-slate-500">
-            Looking to take your team away on a retreat to enjoy awesome food and take in some
-            sunshine? We have a list of places to do just that.
-          </p> -->
         </div>
       </div>
     </div>
@@ -62,7 +58,6 @@
         v-model="sort"
         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
       >
-        <!-- <option selected>Newest</option> -->
         <option value="1">Latest</option>
         <option value="2">Oldest</option>
       </select>
@@ -181,6 +176,7 @@ export default {
   },
   created() {
     this.getComments();
+    console.log("this.$route.query", this.$route.query);
   },
 };
 </script>
