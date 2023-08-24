@@ -25,7 +25,10 @@
                     id: song.id,
                     genre: song.genre,
                     comment_count: song.comment_count,
-                    songTitle: song.modified_name,
+                    modified_name: song.modified_name,
+                    original_name: song.original_name,
+                    song_url: song.song_url,
+                    uid: song.uid,
                   },
                 }"
               >
