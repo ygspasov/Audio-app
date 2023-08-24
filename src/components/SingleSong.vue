@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-6xl mx-auto">
+  <div class="max-w-6xl mx-auto mb-20">
     <div class="w-full mx-auto mb-4 bg-white rounded-xl overflow-hidden">
       <div class="md:flex">
         <div class="md:shrink-0">
@@ -81,6 +81,8 @@
       </div>
     </dl>
   </div>
+
+  <AudioControl />
 </template>
 <script>
 import { useVuelidate } from "@vuelidate/core";
@@ -90,6 +92,7 @@ import { mapState, mapActions } from "pinia";
 import { authStore } from "@/stores/authStore";
 import { alertStore } from "@/stores/alertStore";
 import AlertMessage from "./AlertMessage.vue";
+import AudioControl from "./AudioControl.vue";
 
 export default {
   name: "SingleSong",
@@ -106,6 +109,7 @@ export default {
   },
   components: {
     AlertMessage,
+    AudioControl,
   },
   validations() {
     return {
