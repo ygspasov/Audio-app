@@ -6,6 +6,14 @@ export const playerStore = defineStore("player", {
     currentSong: {},
     sound: {},
   }),
+  getters: {
+    playing: (state) => {
+      if (state.sound.playing) {
+        return state.sound.playing();
+      }
+      return false;
+    },
+  },
   actions: {
     async newSong(song) {
       if (this.sound.playing) {

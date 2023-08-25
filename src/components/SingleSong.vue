@@ -14,8 +14,9 @@
           <div class="p-2">
             <i
               @click.prevent="toggleAudio"
-              class="fa-regular fa-circle-play text-blue-700"
+              class="fa-regular text-blue-700"
               style="font-size: 4rem"
+              :class="{ 'fa-circle-play': !playing, 'fa-circle-pause': playing }"
             ></i>
           </div>
           <div class="p-2">
@@ -183,8 +184,7 @@ export default {
   },
   computed: {
     ...mapState(alertStore, ["showAlert"]),
-    ...mapState(playerStore, ["currentSong"]),
-
+    ...mapState(playerStore, ["currentSong", "playing"]),
     currentUser() {
       return auth.currentUser.email.match(/^([^@]*)@/)[1];
     },
