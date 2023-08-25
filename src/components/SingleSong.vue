@@ -112,7 +112,6 @@ export default {
       comment: "",
       comments: [],
       sort: "1",
-      images: [`1`, `2`, `3`, `4`, `5`, `6`],
       selectedImage: null,
     };
   },
@@ -171,11 +170,11 @@ export default {
       });
     },
     playSong() {
-      // console.log("playing");
       this.newSong(this.song);
     },
-    randomItem(items) {
-      return items[Math.floor(Math.random() * items.length)];
+    randomImage() {
+      //Get random number between 1 and 6 to display different images
+      return Math.floor(Math.random() * 7);
     },
   },
   computed: {
@@ -198,7 +197,7 @@ export default {
   },
   created() {
     this.song = this.$route.query;
-    this.selectedImage = this.randomItem(this.images);
+    this.selectedImage = this.randomImage(this.images);
     this.getComments();
     console.log("song", this.song);
   },
