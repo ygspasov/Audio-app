@@ -2,10 +2,10 @@
   <div class="max-w-6xl mx-auto mb-20">
     <div class="w-full mx-auto mb-4 bg-white rounded-xl overflow-hidden">
       <div class="md:flex">
-        <div class="md:shrink-0">
+        <div class="md:shrink-0" v-if="selectedImage">
           <img
             class="h-48 w-full object-cover md:h-full md:w-80"
-            src="@/assets/streaming.webp"
+            :src="require('@/assets/images/' + selectedImage + '.webp')"
             alt="Modern building architecture"
           />
         </div>
@@ -112,6 +112,8 @@ export default {
       comment: "",
       comments: [],
       sort: "1",
+      images: [`1`, `2`, `3`, `4`, `5`, `6`],
+      selectedImage: null,
     };
   },
   components: {
@@ -172,6 +174,9 @@ export default {
       // console.log("playing");
       this.newSong(this.song);
     },
+    randomItem(items) {
+      return items[Math.floor(Math.random() * items.length)];
+    },
   },
   computed: {
     ...mapState(alertStore, ["showAlert"]),
@@ -193,6 +198,7 @@ export default {
   },
   created() {
     this.song = this.$route.query;
+    this.selectedImage = this.randomItem(this.images);
     this.getComments();
     console.log("song", this.song);
   },
