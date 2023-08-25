@@ -174,7 +174,7 @@ export default {
     },
     randomImage() {
       //Get random number between 1 and 6 to display different images
-      return Math.floor(Math.random() * 7);
+      return Math.floor(Math.random() * 6) + 1;
     },
   },
   computed: {
