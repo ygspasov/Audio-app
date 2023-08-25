@@ -9,12 +9,18 @@
             alt="Modern building architecture"
           />
         </div>
-        <div class="p-8">
-          <div class="uppercase tracking-wide text-md text-indigo-600 font-semibold">
-            Song: {{ song.modified_name }}
+
+        <div class="p-8 flex items-center justify-center">
+          <div class="p-2">
+            <i class="fa-regular fa-circle-play text-blue-700" style="font-size: 4rem"></i>
           </div>
-          <div class="block mt-1 text-lg leading-tight font-medium text-black">
-            Genre: {{ song.genre }}
+          <div class="p-2">
+            <div class="uppercase tracking-wide text-md text-indigo-600 font-semibold">
+              Song: {{ song.modified_name }}
+            </div>
+            <div class="block mt-1 text-lg leading-tight font-medium text-black">
+              Genre: {{ song.genre }}
+            </div>
           </div>
         </div>
       </div>
