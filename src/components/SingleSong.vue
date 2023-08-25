@@ -12,7 +12,11 @@
 
         <div class="p-8 flex items-center justify-center">
           <div class="p-2">
-            <i class="fa-regular fa-circle-play text-blue-700" style="font-size: 4rem"></i>
+            <i
+              @click.prevent="toggleAudio"
+              class="fa-regular fa-circle-play text-blue-700"
+              style="font-size: 4rem"
+            ></i>
           </div>
           <div class="p-2">
             <div class="uppercase tracking-wide text-md text-indigo-600 font-semibold">
@@ -88,7 +92,7 @@
     </dl>
   </div>
 
-  <AudioControl @playSong="playSong" />
+  <AudioControl @playSong="toggleAudio" />
 </template>
 <script>
 import { useVuelidate } from "@vuelidate/core";
@@ -131,7 +135,7 @@ export default {
   },
   methods: {
     ...mapState(authStore, ["userLoggedIn"]),
-    ...mapActions(playerStore, ["newSong"]),
+    ...mapActions(playerStore, ["newSong", "toggleAudio", "stopAudio"]),
     ...mapActions(alertStore, ["setAlert"]),
     async addComment() {
       const comment = {
@@ -199,7 +203,11 @@ export default {
     this.song = this.$route.query;
     this.selectedImage = this.randomImage(this.images);
     this.getComments();
+    this.playSong();
     console.log("song", this.song);
+  },
+  unmounted() {
+    // this.stopAudio();
   },
 };
 </script>
