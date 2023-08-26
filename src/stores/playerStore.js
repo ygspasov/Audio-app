@@ -1,10 +1,13 @@
 import { defineStore } from "pinia";
 import { Howl } from "howler";
-
+import helper from "@/utility/helper";
 export const playerStore = defineStore("player", {
   state: () => ({
     currentSong: {},
     sound: {},
+    seek: "00:00",
+    duration: "00:00",
+    playerProgress: "0%",
   }),
   getters: {
     playing: (state) => {
@@ -16,6 +19,11 @@ export const playerStore = defineStore("player", {
   },
   actions: {
     async newSong(song) {
+      //Unloading the song to prevent memory leak
+      if (this.sound instanceof Howl) {
+        this.sound.unload();
+      }
+
       if (this.sound.playing) {
         this.stopAudio();
       }
@@ -26,6 +34,17 @@ export const playerStore = defineStore("player", {
         html5: true,
       });
       this.sound.play();
+      this.sound.on("play", () => {
+        requestAnimationFrame(this.progress);
+      });
+    },
+    progress() {
+      this.seek = helper.formatTime(this.sound.seek());
+      this.duration = helper.formatTime(this.sound.duration());
+      this.playerProgress = `${(this.sound.seek() / this.sound.duration()) * 100}%`;
+      if (this.sound.playing()) {
+        requestAnimationFrame(this.progress);
+      }
     },
     async toggleAudio() {
       //Check if the Howl object exists

@@ -1,6 +1,5 @@
 <template>
   <div class="fixed bottom-5 w-full">
-    playing:{{ playing }}
     <div class="flex items-center justify-center mx-auto mb-1">
       <button
         data-tooltip-target="tooltip-shuffle"
@@ -65,7 +64,6 @@
         class="inline-flex items-center justify-center p-2.5 mx-2"
       >
         <i
-          @click.prevent="toggleAudio"
           class="fa-regular fa-lg"
           :class="{ 'fa-circle-play': !playing, 'fa-circle-pause': playing }"
         ></i>
@@ -137,17 +135,18 @@
       </div>
     </div>
     <div class="flex items-center justify-between space-x-2 mx-10">
-      <span class="text-sm font-medium text-gray-500 dark:text-gray-400">3:45</span>
+      <span class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ seek }}</span>
       <div class="w-full bg-gray-200 rounded-full h-1.5 dark:bg-gray-800">
-        <div class="bg-blue-600 h-1.5 rounded-full" style="width: 65%"></div>
+        <div class="bg-blue-600 h-1.5 rounded-full" :style="{ width: playerProgress }"></div>
       </div>
-      <span class="text-sm font-medium text-gray-500 dark:text-gray-400">5:00</span>
+      <span class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ duration }}</span>
     </div>
   </div>
 </template>
 <script>
 import { mapState } from "pinia";
 import { playerStore } from "@/stores/playerStore";
+
 export default {
   methods: {
     playSong() {
@@ -155,7 +154,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(playerStore, ["playing"]),
+    ...mapState(playerStore, ["playing", "duration", "seek", "playerProgress"]),
   },
 };
 </script>
