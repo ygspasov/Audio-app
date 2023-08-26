@@ -63,5 +63,21 @@ export const playerStore = defineStore("player", {
         this.sound.pause();
       }
     },
+    updateSeek(e) {
+      //You only want to move the progress bar if the sound is playing
+      if (!this.sound.playing) {
+        return;
+      }
+
+      //Get the click position from the event
+      const { x, width } = e.currentTarget.getBoundingClientRect();
+
+      const clickX = e.clientX - x;
+      const percentage = clickX / width;
+      const seconds = this.sound.duration() * percentage;
+
+      this.sound.seek(seconds);
+      this.sound.once("seek", this.progress);
+    },
   },
 });

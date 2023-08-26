@@ -136,7 +136,10 @@
     </div>
     <div class="flex items-center justify-between space-x-2 mx-10">
       <span class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ seek }}</span>
-      <div class="w-full bg-gray-200 rounded-full h-1.5 dark:bg-gray-800">
+      <div
+        @click.prevent="updateSeek"
+        class="w-full bg-gray-200 rounded-full h-1.5 dark:bg-gray-800"
+      >
         <div class="bg-blue-600 h-1.5 rounded-full" :style="{ width: playerProgress }"></div>
       </div>
       <span class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ duration }}</span>
@@ -144,11 +147,12 @@
   </div>
 </template>
 <script>
-import { mapState } from "pinia";
+import { mapActions, mapState } from "pinia";
 import { playerStore } from "@/stores/playerStore";
 
 export default {
   methods: {
+    ...mapActions(playerStore, ["updateSeek"]),
     playSong() {
       this.$emit("playSong");
     },
