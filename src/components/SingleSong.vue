@@ -65,7 +65,6 @@
     </form>
     <div class="mb-2 w-32">
       <select
-        id="countries"
         v-model="sort"
         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
       >
@@ -73,8 +72,8 @@
         <option value="2">Oldest</option>
       </select>
     </div>
-
     <dl
+      id="comments"
       class="max-w-6xl text-gray-600 divide-y divide-gray-200 dark:text-white dark:divide-gray-700"
     >
       <div class="flex flex-col pb-3" v-for="comment in sortedComments" :key="comment.id">
