@@ -54,6 +54,7 @@ export const playerStore = defineStore("player", {
       //Check if the song is playing
       if (this.sound.playing()) {
         this.sound.pause();
+        this.currentSong = {};
       } else {
         this.sound.play();
       }
