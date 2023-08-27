@@ -24,7 +24,7 @@
                   query: {
                     id: song.id,
                     genre: song.genre,
-                    comment_count: song.comment_count,
+                    comment_count: Number(song.comment_count),
                     modified_name: song.modified_name,
                     original_name: song.original_name,
                     song_url: song.song_url,

@@ -37,7 +37,7 @@
         class="divide-y divide-solid w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600"
       >
         <div class="w-full bg-white p-4 flex align-center justify-between">
-          <span>Comments {{ comments.length }}</span
+          <span>Comments {{ song.comment_count }}</span
           ><span><i class="fa-regular fa-comment mr-2"></i></span>
         </div>
         <div class="px-4 py-2 bg-white rounded-t-lg dark:bg-gray-800">
@@ -98,7 +98,17 @@
 <script>
 import { useVuelidate } from "@vuelidate/core";
 import { helpers, minLength } from "@vuelidate/validators";
-import { auth, db, addDoc, collection, getDocs, where, query } from "@/firebase/firebase";
+import {
+  auth,
+  db,
+  addDoc,
+  collection,
+  getDocs,
+  where,
+  query,
+  doc,
+  updateDoc,
+} from "@/firebase/firebase";
 import { mapState, mapActions } from "pinia";
 import { authStore } from "@/stores/authStore";
 import { alertStore } from "@/stores/alertStore";
@@ -142,7 +152,7 @@ export default {
       const comment = {
         text: this.comment,
         datePosted: new Date().toString(),
-        songId: this.song.query.id,
+        songId: this.song.id,
         name: this.currentUser,
         uid: auth.currentUser.uid,
       };
@@ -150,6 +160,12 @@ export default {
       console.log("comment", comment);
 
       await addDoc(collection(db, "comments"), comment).then((res) => {
+        this.song.comment_count++;
+        const songRef = doc(db, "songs", this.song.id);
+
+        updateDoc(songRef, {
+          comment_count: this.song.comment_count,
+        });
         this.setAlert("Comment added", "text-green-800 border-green-300 bg-green-50");
         console.log("Response ", res.id);
         this.getComments();
