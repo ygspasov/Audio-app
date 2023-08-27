@@ -20,7 +20,7 @@
               <router-link
                 class="block"
                 :to="{
-                  name: 'SingeSong',
+                  name: 'SingleSong',
                   query: {
                     id: song.id,
                     genre: song.genre,
@@ -37,7 +37,26 @@
             </td>
             <td class="td-class text-center text-lg">{{ song.genre }}</td>
             <td class="td-class text-center text-lg">
-              <i class="fa-regular fa-comment mr-2"></i>{{ song.comment_count }}
+              <router-link
+                custom
+                :to="{
+                  name: 'SingleSong',
+                  query: {
+                    id: song.id,
+                    genre: song.genre,
+                    comment_count: Number(song.comment_count),
+                    modified_name: song.modified_name,
+                    original_name: song.original_name,
+                    song_url: song.song_url,
+                    uid: song.uid,
+                  },
+                  hash: '#comments',
+                }"
+                v-slot="{ navigate }"
+                ><span @click="navigate" style="cursor: pointer"
+                  ><i class="fa-regular fa-comment mr-2"></i>{{ song.comment_count }}</span
+                ></router-link
+              >
             </td>
           </tr>
         </tbody>

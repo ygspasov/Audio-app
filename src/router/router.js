@@ -5,6 +5,14 @@ import NotFound from "@/components/NotFound.vue";
 import SingleSong from "@/components/SingleSong.vue";
 const router = createRouter({
   history: createWebHistory(),
+  scrollBehavior(to) {
+    //used for the hash scrolling to work
+    if (to.hash) {
+      return {
+        el: to.hash,
+      };
+    }
+  },
   routes: [
     { path: "/", name: "Home", component: SongsList },
     {
@@ -12,12 +20,12 @@ const router = createRouter({
       name: "Manage",
       component: ManageSongs,
     },
-    { path: "/:pathMatch(.*)*", name: "NotFound", component: NotFound },
     {
       path: "/song/",
-      name: "SingeSong",
+      name: "SingleSong",
       component: SingleSong,
     },
+    { path: "/:pathMatch(.*)*", name: "NotFound", component: NotFound },
   ],
   linkExactActiveClass: "text-sky-700",
 });
