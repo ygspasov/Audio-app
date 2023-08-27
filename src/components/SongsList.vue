@@ -16,7 +16,12 @@
         </thead>
         <tbody class="w-100" v-for="song in songs" :key="song.id">
           <tr class="tr-class">
-            <td class="td-class text-center text-lg">
+            <td
+              class="td-class text-center text-lg"
+              :class="{
+                currentSong: this.currentSongId === song.id,
+              }"
+            >
               <router-link
                 class="block"
                 :to="{
@@ -32,11 +37,23 @@
                   },
                 }"
               >
-                {{ song.modified_name }}</router-link
-              >
+                {{ song.modified_name }}
+              </router-link>
             </td>
-            <td class="td-class text-center text-lg">{{ song.genre }}</td>
-            <td class="td-class text-center text-lg">
+            <td
+              class="td-class text-center text-lg"
+              :class="{
+                currentSong: this.currentSongId === song.id,
+              }"
+            >
+              {{ song.genre }}
+            </td>
+            <td
+              class="td-class text-center text-lg"
+              :class="{
+                currentSong: this.currentSongId === song.id,
+              }"
+            >
               <router-link
                 custom
                 :to="{
@@ -82,6 +99,7 @@ import { musicStore } from "@/stores/musicStore";
 import { mapActions, mapState } from "pinia";
 import { authStore } from "@/stores/authStore";
 import HeroSection from "@/components/HeroSection.vue";
+import { playerStore } from "@/stores/playerStore";
 const db = getFirestore(app);
 const songsRef = collection(db, "songs");
 const auth = getAuth();
@@ -157,6 +175,10 @@ export default {
   },
   computed: {
     ...mapState(authStore, ["userLoggedIn"]),
+    ...mapState(playerStore, ["currentSong"]),
+    currentSongId() {
+      return this.currentSong.id;
+    },
   },
   watch: {
     userLoggedIn(val) {
@@ -192,5 +214,9 @@ export default {
 
 .td-class {
   @apply px-4 py-3 bg-gray-100 first:rounded-t-lg last:rounded-b-lg sm:first:rounded-t-none sm:last:rounded-b-none sm:first:rounded-tl-lg sm:first:rounded-bl-lg sm:last:rounded-tr-lg sm:last:rounded-br-lg;
+}
+
+.currentSong {
+  @apply px-4 py-3 bg-gray-600 text-white first:rounded-t-lg last:rounded-b-lg sm:first:rounded-t-none sm:last:rounded-b-none sm:first:rounded-tl-lg sm:first:rounded-bl-lg sm:last:rounded-tr-lg sm:last:rounded-br-lg;
 }
 </style>
