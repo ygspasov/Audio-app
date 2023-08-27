@@ -2,7 +2,11 @@
   <div class="mx-4">
     <Navbar />
 
-    <router-view />
+    <router-view v-slot="{ Component }">
+      <transition name="fade" mode="out-in">
+        <component :is="Component"></component>
+      </transition>
+    </router-view>
   </div>
 </template>
 
@@ -41,5 +45,14 @@ export default {
 <style>
 body {
   font-family: "Roboto";
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>

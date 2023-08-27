@@ -1,98 +1,100 @@
 <template>
-  <div class="max-w-6xl mx-auto mb-20">
-    <div class="w-full mx-auto mb-4 bg-white rounded-xl overflow-hidden">
-      <div class="md:flex">
-        <div class="md:shrink-0" v-if="selectedImage">
-          <img
-            class="h-48 w-full object-cover md:h-full md:w-80"
-            :src="require('@/assets/images/' + selectedImage + '.webp')"
-            alt="Modern building architecture"
-          />
-        </div>
-
-        <div class="p-8 flex items-center justify-center">
-          <div class="p-2">
-            <i
-              @click.prevent="toggleAudio"
-              class="fa-regular text-blue-700"
-              style="font-size: 4rem"
-              :class="{ 'fa-circle-play': !playing, 'fa-circle-pause': playing }"
-            ></i>
+  <main>
+    <div class="max-w-6xl mx-auto mb-20">
+      <div class="w-full mx-auto mb-4 bg-white rounded-xl overflow-hidden">
+        <div class="md:flex">
+          <div class="md:shrink-0" v-if="selectedImage">
+            <img
+              class="h-48 w-full object-cover md:h-full md:w-80"
+              :src="require('@/assets/images/' + selectedImage + '.webp')"
+              alt="Modern building architecture"
+            />
           </div>
-          <div class="p-2">
-            <div class="uppercase tracking-wide text-md text-indigo-600 font-semibold">
-              Song: {{ song.modified_name }}
+
+          <div class="p-8 flex items-center justify-center">
+            <div class="p-2">
+              <i
+                @click.prevent="toggleAudio"
+                class="fa-regular text-blue-700"
+                style="font-size: 4rem"
+                :class="{ 'fa-circle-play': !playing, 'fa-circle-pause': playing }"
+              ></i>
             </div>
-            <div class="block mt-1 text-lg leading-tight font-medium text-black">
-              Genre: {{ song.genre }}
+            <div class="p-2">
+              <div class="uppercase tracking-wide text-md text-indigo-600 font-semibold">
+                Song: {{ song.modified_name }}
+              </div>
+              <div class="block mt-1 text-lg leading-tight font-medium text-black">
+                Genre: {{ song.genre }}
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <AlertMessage v-if="showAlert" />
+      <AlertMessage v-if="showAlert" />
 
-    <form class="my-4" v-if="userLoggedIn()">
-      <div
-        class="divide-y divide-solid w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600"
-      >
-        <div class="w-full bg-white p-4 flex align-center justify-between">
-          <span>Comments {{ song.comment_count }}</span
-          ><span><i class="fa-regular fa-comment mr-2"></i></span>
+      <form class="my-4" v-if="userLoggedIn()">
+        <div
+          class="divide-y divide-solid w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600"
+        >
+          <div class="w-full bg-white p-4 flex align-center justify-between">
+            <span>Comments {{ song.comment_count }}</span
+            ><span><i class="fa-regular fa-comment mr-2"></i></span>
+          </div>
+          <div class="px-4 py-2 bg-white rounded-t-lg dark:bg-gray-800">
+            <label for="comment" class="sr-only">Your comment</label>
+            <textarea
+              v-model="comment"
+              id="comment"
+              rows="4"
+              class="w-full px-0 text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400"
+              placeholder="Write a comment..."
+              required
+            ></textarea>
+          </div>
+          <div class="flex items-center justify-between px-3 py-2 border-t dark:border-gray-600">
+            <button
+              :disabled="v$.$invalid"
+              type="submit"
+              class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800 disabled:opacity-60"
+              @click.prevent="addComment"
+            >
+              Post comment
+            </button>
+          </div>
         </div>
-        <div class="px-4 py-2 bg-white rounded-t-lg dark:bg-gray-800">
-          <label for="comment" class="sr-only">Your comment</label>
-          <textarea
-            v-model="comment"
-            id="comment"
-            rows="4"
-            class="w-full px-0 text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400"
-            placeholder="Write a comment..."
-            required
-          ></textarea>
-        </div>
-        <div class="flex items-center justify-between px-3 py-2 border-t dark:border-gray-600">
-          <button
-            :disabled="v$.$invalid"
-            type="submit"
-            class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800 disabled:opacity-60"
-            @click.prevent="addComment"
-          >
-            Post comment
-          </button>
-        </div>
+      </form>
+      <div class="mb-2 w-32">
+        <select
+          v-model="sort"
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        >
+          <option value="1">Latest</option>
+          <option value="2">Oldest</option>
+        </select>
       </div>
-    </form>
-    <div class="mb-2 w-32">
-      <select
-        v-model="sort"
-        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+      <dl
+        id="comments"
+        class="max-w-6xl text-gray-600 divide-y divide-gray-200 dark:text-white dark:divide-gray-700"
       >
-        <option value="1">Latest</option>
-        <option value="2">Oldest</option>
-      </select>
+        <div class="flex flex-col pb-3" v-for="comment in sortedComments" :key="comment.id">
+          <dt class="mb-1 text-black-800 text-lg md:text-lg dark:text-gray-400 font-semibold">
+            {{ comment.name }}
+          </dt>
+          <dl>
+            <dd class="text-md text-gray-600 mb-2 italic">
+              {{ commentDate(comment.datePosted) }}
+            </dd>
+            <dd class="text-lg text-gray-600">
+              {{ comment.text }}
+            </dd>
+          </dl>
+        </div>
+      </dl>
     </div>
-    <dl
-      id="comments"
-      class="max-w-6xl text-gray-600 divide-y divide-gray-200 dark:text-white dark:divide-gray-700"
-    >
-      <div class="flex flex-col pb-3" v-for="comment in sortedComments" :key="comment.id">
-        <dt class="mb-1 text-black-800 text-lg md:text-lg dark:text-gray-400 font-semibold">
-          {{ comment.name }}
-        </dt>
-        <dl>
-          <dd class="text-md text-gray-600 mb-2 italic">
-            {{ commentDate(comment.datePosted) }}
-          </dd>
-          <dd class="text-lg text-gray-600">
-            {{ comment.text }}
-          </dd>
-        </dl>
-      </div>
-    </dl>
-  </div>
 
-  <AudioControl @playSong="toggleAudio" />
+    <AudioControl @playSong="toggleAudio" />
+  </main>
 </template>
 <script>
 import { useVuelidate } from "@vuelidate/core";
