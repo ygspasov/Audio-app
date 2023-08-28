@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-4">
+  <div class="mx-4 text-primary">
     <Navbar />
 
     <router-view v-slot="{ Component }">
