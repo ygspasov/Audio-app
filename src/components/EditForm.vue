@@ -90,7 +90,6 @@ export default {
     async update() {
       this.$emit("close-modal");
       const songRef = doc(db, "songs", this.songID);
-      console.log("songTitle, songGenre, songId", this.songTitle, this.songGenre, this.songId);
       await updateDoc(songRef, {
         modified_name: this.songTitle,
         genre: this.songGenre,
@@ -106,12 +105,8 @@ export default {
       const songsRef = doc(db, "songs", this.songId());
       const songSnap = await getDoc(songsRef);
       if (songSnap.exists()) {
-        console.log("Document data:", songSnap.data());
         this.songTitle = songSnap.data().modified_name || songSnap.data().original_name;
         this.songGenre = songSnap.data().genre;
-      } else {
-        // docSnap.data() will be undefined in this case
-        console.log("No such document!");
       }
     },
   },
@@ -130,14 +125,11 @@ export default {
     },
   },
   watch: {
-    songID(newID, oldID) {
-      console.log("newID,oldID", newID, oldID);
+    songID() {
       this.getSong();
     },
   },
-  created() {
-    console.log("v$ editForm", this.v$);
-  },
+  created() {},
 };
 </script>
 <style></style>

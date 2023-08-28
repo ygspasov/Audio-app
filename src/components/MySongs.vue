@@ -94,7 +94,6 @@ export default {
       const q = query(songsRef, where("uid", "==", auth.currentUser.uid));
       await getDocs(q)
         .then((querySnapshot) => {
-          console.log("querySnapshot", querySnapshot);
           querySnapshot.forEach((doc) => {
             let song = doc.data();
             song.id = doc.id;
@@ -104,8 +103,7 @@ export default {
         .then(() => {
           this.loading = false;
         })
-        .catch((err) => {
-          console.log("err", err);
+        .catch(() => {
           this.loading = false;
         });
 
@@ -114,13 +112,11 @@ export default {
       this.songs.push("");
     },
     edit(id) {
-      console.log("song id", id);
       this.setSongId(id);
     },
     async deleteSong(id) {
       this.setSongId(id);
       await deleteDoc(doc(db, "songs", this.songId())).then(() => {
-        console.log("song deleted");
         this.setAlert("Song deleted", "text-green-800 border-green-300 bg-green-50");
         this.getSongs();
       });
@@ -144,7 +140,6 @@ export default {
   },
   created() {
     this.getSongs();
-    console.log("songs", this.songs);
   },
 };
 </script>
