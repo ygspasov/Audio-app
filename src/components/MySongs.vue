@@ -32,7 +32,7 @@
             :key="song.uid"
             v-show="song"
           >
-            <th scope="row" class="px-6 py-4 font-medium text-primary whitespace-nowrap">
+            <th scope="row" class="px-6 py-4 font-medium text-primary">
               {{ song.modified_name || song.original_name }}
             </th>
             <td class="px-6 py-4">{{ song.genre || "Unspecified" }}</td>
