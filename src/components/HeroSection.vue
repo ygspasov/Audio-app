@@ -1,15 +1,15 @@
 <template>
   <div class="max-w-screen-xl text-center mx-auto my-4">
     <h1
-      class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white"
+      class="mb-4 text-4xl font-extrabold leading-none tracking-tight md:text-5xl lg:text-6xl dark:text-white"
     >
       Listen to Great Music!
     </h1>
     <p
-      class="mb-6 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400"
+      class="mb-6 text-lg font-normal text-secondary lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400"
     >
-      Here at FlowMusic, we focus on delivering the best music experience for you, anytime, anywhere
-      and free of cost.
+      Here at FlowMusic, we focus on delivering the best music experience for you, anytime,
+      anywhere, free of cost, and without adds.
     </p>
     <!-- <a
       href="#"
