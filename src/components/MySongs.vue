@@ -1,28 +1,24 @@
 <template>
-  <div
-    class="basis-1/2 mx-1 p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
-  >
+  <div class="basis-1/2 mx-1 p-6 bg-blue-500 border border-gray-200 rounded-lg shadow">
     <div class="flex items-center justify-between w-full px-1">
-      <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">My Songs</h5>
-      <i class="fa-solid fa-music"></i>
+      <h5 class="mb-2 text-xl font-bold tracking-tight text-white dark:text-white">My Songs</h5>
+      <i class="fa-solid fa-music text-white"></i>
     </div>
     <!-- Loading indicator -->
     <div
       v-if="loading"
-      class="flex items-center justify-center w-100 h-56 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700 my-2"
+      class="flex items-center justify-center w-100 h-56 border border-gray-200 rounded-lg bg-gray-50 my-2"
     >
       <div
-        class="px-3 py-1 text-sm font-medium leading-none text-center text-blue-800 bg-blue-200 rounded-full animate-pulse dark:bg-blue-900 dark:text-blue-200"
+        class="px-3 py-1 text-sm font-medium leading-none text-center bg-blue-200 rounded-full animate-pulse"
       >
         loading...
       </div>
     </div>
 
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-      <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-        <thead
-          class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
-        >
+      <table class="w-full text-sm text-left">
+        <thead class="text-xs uppercase bg-secondary text-white">
           <tr class="tr-class">
             <th scope="col" class="px-6 py-3">Song</th>
             <th scope="col" class="px-6 py-3">Genre</th>
@@ -31,15 +27,12 @@
         </thead>
         <tbody>
           <tr
-            class="tr-class bg-white border-b dark:bg-gray-900 dark:border-gray-700"
+            class="tr-class text-white border-b bg-secondary"
             v-for="song in sortedSongs"
             :key="song.uid"
             v-show="song"
           >
-            <th
-              scope="row"
-              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-            >
+            <th scope="row" class="px-6 py-4 font-medium text-white whitespace-nowrap">
               {{ song.modified_name || song.original_name }}
             </th>
             <td class="px-6 py-4">{{ song.genre || "Unspecified" }}</td>

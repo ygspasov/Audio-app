@@ -54,4 +54,7 @@ body {
 .fade-leave-to {
   opacity: 0;
 }
+a {
+  cursor: pointer;
+}
 </style>
