@@ -1,7 +1,7 @@
 <template>
-  <div class="fixed bottom-5 w-full">
+  <div class="centered w-full md:w-3/4">
     <div class="flex items-center justify-center mx-auto mb-1">
-      <button
+      <!-- <button
         data-tooltip-target="tooltip-shuffle"
         type="button"
         class="p-2.5 group rounded-full hover:bg-gray-100 mr-1 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-600 dark:hover:bg-gray-600"
@@ -48,7 +48,7 @@
           />
         </svg>
         <span class="sr-only">Previous audio</span>
-      </button>
+      </button> -->
       <div
         id="tooltip-previous"
         role="tooltip"
@@ -77,7 +77,7 @@
         Pause audio
         <div class="tooltip-arrow" data-popper-arrow></div>
       </div>
-      <button
+      <!-- <button
         data-tooltip-target="tooltip-next"
         type="button"
         class="p-2.5 group rounded-full hover:bg-gray-100 mr-1 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-600 dark:hover:bg-gray-600"
@@ -94,16 +94,16 @@
           />
         </svg>
         <span class="sr-only">Next audio</span>
-      </button>
-      <div
+      </button> -->
+      <!-- <div
         id="tooltip-next"
         role="tooltip"
         class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700"
       >
         Next audio
         <div class="tooltip-arrow" data-popper-arrow></div>
-      </div>
-      <button
+      </div> -->
+      <!-- <button
         data-tooltip-target="tooltip-restart"
         type="button"
         class="p-2.5 group rounded-full hover:bg-gray-100 mr-1 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-600 dark:hover:bg-gray-600"
@@ -124,15 +124,15 @@
           />
         </svg>
         <span class="sr-only">Restart audio</span>
-      </button>
-      <div
+      </button> -->
+      <!-- <div
         id="tooltip-restart"
         role="tooltip"
         class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700"
       >
         Restart audio
         <div class="tooltip-arrow" data-popper-arrow></div>
-      </div>
+      </div> -->
     </div>
     <div class="flex items-center justify-between space-x-2 mx-10">
       <span class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ seek }}</span>
@@ -162,4 +162,11 @@ export default {
   },
 };
 </script>
-<style></style>
+<style scoped>
+.centered {
+  position: fixed;
+  left: 50%;
+  bottom: 1.5rem;
+  transform: translate(-50%, 0);
+}
+</style>
