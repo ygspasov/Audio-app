@@ -32,7 +32,7 @@
         <tbody>
           <tr
             class="tr-class bg-white border-b dark:bg-gray-900 dark:border-gray-700"
-            v-for="song in songs"
+            v-for="song in sortedSongs"
             :key="song.uid"
             v-show="song"
           >
@@ -134,6 +134,12 @@ export default {
   computed: {
     dataLoaded() {
       return this.songsLoading();
+    },
+    sortedSongs() {
+      //slice used to return a new array
+      return this.songs.slice().sort((a, b) => {
+        return new Date(b.datePosted) - new Date(a.datePosted);
+      });
     },
   },
   created() {
