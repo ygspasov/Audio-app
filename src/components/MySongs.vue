@@ -136,4 +136,8 @@ export default {
   },
 };
 </script>
-<style></style>
+<style>
+.tr-class {
+  @apply flex flex-col mb-4 sm:table-row;
+}
+</style>
