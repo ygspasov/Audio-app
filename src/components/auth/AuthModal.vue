@@ -127,7 +127,6 @@ export default {
     },
 
     async authenticateUser() {
-      console.log("loginData", this.loginData);
       await this.authenticate(this.loginData.email, this.loginData.password);
     },
     async register() {
@@ -141,9 +140,7 @@ export default {
         .then((userCredential) => {
           // Signed in
           const user = userCredential.user;
-          console.log("user", user);
           this.loginUser(this.registrationData.email);
-          console.log("userLoggedIn", this.userLoggedIn);
           addDoc(collection(db, "users"), {
             first: this.registrationData.firstName,
             last: this.registrationData.lastName,
@@ -152,17 +149,12 @@ export default {
             email: this.registrationData.email,
             uid: user.uid,
           })
-            .then(() => {
-              console.log("collection updated");
-            })
+            .then(() => {})
             .catch((error) => {
               console.log("error", error);
             });
         })
-        .catch((error) => {
-          const errorMessage = error.message;
-          console.log("errorMessage", errorMessage);
-        });
+        .catch(() => {});
     },
   },
 };

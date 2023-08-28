@@ -18,9 +18,7 @@ export const authStore = defineStore("auth", {
     },
     async authenticate(email, password) {
       await signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-          console.log("successful login");
-          console.log("userCredential", userCredential);
+        .then(() => {
           this.userLoggedIn = true;
           this.userEmail = email;
           this.displayName = email.match(/^([^@]*)@/)[1];
@@ -28,11 +26,7 @@ export const authStore = defineStore("auth", {
           // const user = userCredential.user;
           // ...
         })
-        .catch((error) => {
-          console.log("error", error.message);
-          // const errorCode = error.code;
-          // const errorMessage = error.message;
-        });
+        .catch(() => {});
     },
   },
 });

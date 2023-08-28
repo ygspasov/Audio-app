@@ -28,7 +28,6 @@ export const playerStore = defineStore("player", {
         this.stopAudio();
       }
       this.currentSong = song;
-      console.log("this.currentSong", this.currentSong);
       this.sound = new Howl({
         src: [song.song_url],
         html5: true,

@@ -124,7 +124,6 @@ export default {
       );
       await getDocs(rest || q)
         .then((querySnapshot) => {
-          console.log("querySnapshot", querySnapshot);
           querySnapshot.forEach((doc) => {
             let song = doc.data();
             song.id = doc.id;
@@ -136,8 +135,7 @@ export default {
         .then(() => {
           this.loading = false;
         })
-        .catch((err) => {
-          console.log("err", err);
+        .catch(() => {
           this.loading = false;
         });
 
@@ -163,12 +161,10 @@ export default {
       }
     },
     handleScroll() {
-      console.log("handleScroll");
       const { scrollTop, offsetHeight } = document.documentElement;
       const { innerHeight } = window;
       const bottomOfWindow = Math.round(scrollTop) + innerHeight === offsetHeight;
       if (bottomOfWindow) {
-        console.log("Bottom of window reached");
         this.getSongs();
       }
     },
@@ -190,7 +186,6 @@ export default {
   created() {
     if (this.userLoggedIn) {
       this.getDocuments();
-      console.log("songs", this.songs);
       window.addEventListener("scroll", this.handleScroll);
     }
   },

@@ -82,15 +82,12 @@ export default {
       await signOut(auth)
         .then(() => {
           // Sign-out successful.
-          console.log("Sign-out successful.");
           this.logOutUser();
           if (this.$route.path === "/manage") {
             this.$router.push("/");
           }
         })
-        .catch((error) => {
-          console.log("error", error);
-        });
+        .catch(() => {});
     },
   },
 };

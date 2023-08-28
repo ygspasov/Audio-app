@@ -340,7 +340,6 @@ export default {
   computed: {
     isLoginValid() {
       if (!this.v$.l_email.$invalid && !this.v$.l_password.$invalid) {
-        console.log("Login valid");
         this.$emit("l_valid", true);
         const login = {
           email: this.l_email,
@@ -362,7 +361,6 @@ export default {
         !this.v$.r_phone.$invalid &&
         !this.v$.r_address.$invalid
       ) {
-        console.log("Registration valid");
         this.$emit("r_valid", true);
         const registration = {
           email: this.r_email,
@@ -375,7 +373,6 @@ export default {
         };
         this.$emit("registration", registration);
       } else {
-        console.log("Registration invalid");
         this.$emit("r_valid", false);
       }
       return (
@@ -392,7 +389,6 @@ export default {
   watch: {},
   methods: {},
   created() {
-    console.log("this.v$", this.v$);
     this.l_email = "";
     this.l_password = "";
     this.r_email = "";

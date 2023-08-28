@@ -34,7 +34,6 @@ export default {
   async created() {
     setTimeout(() => {
       if (auth.currentUser) {
-        console.log("auth.currentUser", auth.currentUser);
         this.loginUser(auth.currentUser.email);
       }
     }, 1000);

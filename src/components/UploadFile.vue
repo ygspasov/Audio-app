@@ -104,7 +104,6 @@ export default {
         const songsRef = ref(storageRef, `songs/${file.name}`);
         let fileData = {};
         uploadBytes(songsRef, file).then((snapshot) => {
-          console.log("Uploaded a blob or file!", snapshot);
           fileData = snapshot;
           song = {
             uid: auth.currentUser.uid,
@@ -131,7 +130,6 @@ export default {
         uploadTask.on(
           "state_changed",
           (snapshot) => {
-            console.log("snapshot", snapshot);
             const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
             0;
             if (this.uploads.length > 0) {
@@ -148,12 +146,7 @@ export default {
             console.log("error", error);
           },
           async () => {
-            console.log("fileData", fileData);
-
-            // song.url to be added
-            console.log("song", song);
             await getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-              console.log("File available at", downloadURL);
               song.song_url = downloadURL;
             });
 
@@ -166,7 +159,6 @@ export default {
             const db = getFirestore(app);
             await addDoc(collection(db, "songs"), song)
               .then(() => {
-                console.log("collection updated");
                 this.loadSongs("yes");
                 this.setAlert("Song added", "text-green-800 border-green-300 bg-green-50");
                 this.uploads = [];
@@ -177,7 +169,6 @@ export default {
           }
         );
       });
-      console.log("files", files);
     },
   },
   computed: {},

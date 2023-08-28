@@ -158,9 +158,8 @@ export default {
         uid: auth.currentUser.uid,
       };
       this.comment = "";
-      console.log("comment", comment);
 
-      await addDoc(collection(db, "comments"), comment).then((res) => {
+      await addDoc(collection(db, "comments"), comment).then(() => {
         this.song.comment_count++;
         const songRef = doc(db, "songs", this.song.id);
 
@@ -168,7 +167,6 @@ export default {
           comment_count: this.song.comment_count,
         });
         this.setAlert("Comment added", "text-green-800 border-green-300 bg-green-50");
-        console.log("Response ", res.id);
         this.getComments();
       });
     },
@@ -180,7 +178,6 @@ export default {
         querySnapshot.forEach((comment) => {
           this.comments.push(comment.data());
         });
-        console.log("comments", this.comments);
       });
     },
     commentDate(val) {
@@ -221,7 +218,6 @@ export default {
     this.selectedImage = this.randomImage(this.images);
     this.getComments();
     this.playSong();
-    console.log("song", this.song);
   },
   unmounted() {
     // this.stopAudio();
