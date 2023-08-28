@@ -51,10 +51,7 @@
       </label>
     </div>
     <div class="mb-4" v-for="upload of uploads" :key="upload.name">
-      <div
-        class="my-1 text-base font-medium text-blue-700 dark:text-blue-500"
-        :class="upload.text_class"
-      >
+      <div class="my-1 text-base font-medium text-white" :class="upload.text_class">
         <i :class="upload.icon" class="mr-2"></i>{{ upload.name }}
       </div>
       <div class="w-full bg-gray-200 rounded-full h-2.5 mb-4 dark:bg-gray-700">
