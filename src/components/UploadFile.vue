@@ -114,6 +114,7 @@ export default {
             genre: "Unspecified",
             comment_count: 0,
             song_url: "",
+            datePosted: new Date().toString(),
           };
         });
         const uploadIndex =
