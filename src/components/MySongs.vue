@@ -27,12 +27,12 @@
         </thead>
         <tbody>
           <tr
-            class="tr-class text-white border-b bg-secondary"
+            class="tr-class text-primary border-b bg-blue-200"
             v-for="song in sortedSongs"
             :key="song.uid"
             v-show="song"
           >
-            <th scope="row" class="px-6 py-4 font-medium text-white whitespace-nowrap">
+            <th scope="row" class="px-6 py-4 font-medium text-primary whitespace-nowrap">
               {{ song.modified_name || song.original_name }}
             </th>
             <td class="px-6 py-4">{{ song.genre || "Unspecified" }}</td>
