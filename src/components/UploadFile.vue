@@ -1,7 +1,7 @@
 <template>
   <div
-    class="basis-1/4 mb-4 md:mb-0 mx-1 p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
-    :class="{ 'bg-gray-300 border-gray-400 border-solid': isDraggedOver }"
+    class="basis-1/4 mb-4 md:mb-0 mx-1 p-6 bg-blue-500 order border-gray-200 rounded-lg shadow"
+    :class="{ 'bg-hover border-blue-400 border-solid': isDraggedOver }"
     @drag.prevent.stop=""
     @dragstart.prevent.stop=""
     @dragend.prevent.stop="isDraggedOver = false"
@@ -11,15 +11,15 @@
     @drop.prevent.stop="uploadFiles($event)"
   >
     <div class="flex items-center justify-between w-full px-1">
-      <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">Upload</h5>
-      <i class="fa-solid fa-upload"></i>
+      <h5 class="mb-2 text-xl font-bold tracking-tight text-white">Upload</h5>
+      <i class="fa-solid fa-upload text-white"></i>
     </div>
 
     <div class="flex items-center justify-center w-full">
       <label
         for="dropzone-file"
-        class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
-        :class="{ 'bg-gray-300 border-gray-400 border-solid': isDraggedOver }"
+        class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-white"
+        :class="{ 'bg-blue-300 border-blue-400 border-solid': isDraggedOver }"
       >
         <div class="flex flex-col items-center justify-center pt-5 pb-6">
           <svg
