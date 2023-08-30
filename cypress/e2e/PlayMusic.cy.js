@@ -3,7 +3,7 @@ describe("Login", () => {
   beforeEach(() => {
     login;
   });
-  it("Homepage", () => {
+  it("Play music", () => {
     cy.visit("http://localhost:8080/");
     //Play the first song
     cy.get("#song-list tr ").find("a").first().click();
