@@ -2,7 +2,7 @@
   <div>
     <nav class="bg-white border-gray-200 text-primary">
       <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <a href="#" class="flex items-center">
+        <div class="flex items-center">
           <img src="@/assets/Music.png" class="h-8 mr-3" alt="Music app Logo" />
           <router-link
             to="/"
@@ -10,7 +10,7 @@
             class="self-center text-2xl font-semibold whitespace-nowrap"
             >FlowMusic
           </router-link>
-        </a>
+        </div>
         <button
           data-collapse-toggle="navbar-multi-level"
           type="button"
