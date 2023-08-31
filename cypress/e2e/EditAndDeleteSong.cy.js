@@ -3,7 +3,7 @@ describe("Login", () => {
   beforeEach(() => {
     login;
   });
-  it("Post a comment", () => {
+  it("Edit song genre", () => {
     cy.visit("http://localhost:8080/");
     cy.get("ul li a").contains("Manage").click();
     cy.get("i.fa-solid.fa-pen-to-square").first().click();
@@ -14,5 +14,7 @@ describe("Login", () => {
     //Test the update
     cy.get("th.px-6.py-4.font-medium.text-primary").first().should("contain", "Test song name");
     cy.get("td.px-6.py-4").first().should("contain", "Test song genre");
+    //Delete song
+    cy.get(".fa-solid.fa-trash.mx-1").first().click();
   });
 });
