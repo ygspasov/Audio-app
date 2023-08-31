@@ -11,8 +11,7 @@
           type="songTitle"
           v-model="songTitle"
           @blur="v$.songTitle.$touch"
-          id="songTitle"
-          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          class="songTitle bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           placeholder="Iron Maiden - Seventh son of the seventh son"
           required
         />
@@ -34,8 +33,7 @@
           type="genre"
           v-model="songGenre"
           @blur="v$.songGenre.$touch"
-          id="genre"
-          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          class="songGenre bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           placeholder="Heavy metal"
           required
         />
@@ -69,7 +67,7 @@
 import { mapState, mapActions } from "pinia";
 import { musicStore } from "@/stores/musicStore";
 import { useVuelidate } from "@vuelidate/core";
-import { required, helpers, alpha } from "@vuelidate/validators";
+import { required, helpers } from "@vuelidate/validators";
 import { doc, getDoc, updateDoc, db } from "@/firebase/firebase";
 import { alertStore } from "@/stores/alertStore";
 
@@ -115,7 +113,7 @@ export default {
       songTitle: { required: helpers.withMessage("Song Title cannot be empty", required) },
       songGenre: {
         required: helpers.withMessage("Song Genre cannot be empty", required),
-        alpha: helpers.withMessage("Song Genre should be alphabetical", alpha),
+        alpha: helpers.withMessage("Song Genre cannot be empty", required),
       },
     };
   },
