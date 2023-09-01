@@ -4,12 +4,21 @@ FlowMusic is a music player app built with [Vue.js](https://vuejs.org/).
 
 ## Installation and running the project
 
+# Installing the dependencies
+
 ```js
-# for installing the dependencies
 npm i
-# for running the project
+```
+
+# Running the project
+
+```js
 npm run dev
-# for running the tests
+```
+
+# Running the tests
+
+```js
 npm run cypress
 ```
 
@@ -45,3 +54,9 @@ The Sign in and Registration forms are validated with [Vuelidate](https://vuelid
 
 ![Register](./src/assets/images/readme/register.jpg)
 ![Login](./src/assets/images/readme/login.jpg)
+
+#Playing a song and posting comments
+
+Clicking on any of the songs from the home page opens the page for that particular song where the user can listen to it and post comments. The comments can be filtered from latest to oldest. The progress bar at the bottom of the page also serves as time control. By pressing on it, the user can skip through certain sections of the song. The song can be paused and resumed. Going back to the home page shows the currently played song in bright blue as illustrated on the first screenshot.
+
+![Playing](./src/assets/images/readme/playing.jpg)
