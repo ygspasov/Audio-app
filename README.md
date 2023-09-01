@@ -81,6 +81,10 @@ The app's design is also responsive and can be used on mobile devices:
 
 ![Responsive](./src/assets/images/readme/responsive.jpg)
 
-### Unit tests
+## Unit tests
 
 E2E tests are present in the "cypress" folder and can be run in the browser with "npm run cypress".
+
+---
+
+The live app is hosted at [Firebase](https://flowmusic-20cf4.web.app/).
