@@ -57,26 +57,30 @@ The Sign in and Registration forms are validated with [Vuelidate](https://vuelid
 ![Register](./src/assets/images/readme/register.jpg)
 ![Login](./src/assets/images/readme/login.jpg)
 
-#Playing a song and posting comments
+### Playing a song and posting comments
 
 Clicking on any of the songs from the home page opens the page for that particular song where the user can listen to it and post comments. The comments can be filtered from latest to oldest. The progress bar at the bottom of the page also serves as time control. By pressing on it, the user can skip through certain sections of the song. The song can be paused and resumed. Going back to the home page shows the currently played song in bright blue as illustrated on the first screenshot.
 
 ![Playing](./src/assets/images/readme/playing.jpg)
 
-#Uploading songs
+### Uploading songs
 
 Logged in users can upload songs into the My Songs section of the Manage page either by drag and dropping several audio files from their disk or manually those. Successfully uploaded files are listed under the My Songs section, and can be played through the home page. The upload progress of each song is listed under the Upload section:
 
 ![Uploading](./src/assets/images/readme/upload.jpg)
 
-#Updating song name and genre, and deleteting songs
+### Updating song name and genre, and deleteting songs
 
 Each song's name and genre can be updated or the song itself deleted through the Actions column of the MySongs table:
 
 ![Update](./src/assets/images/readme/update.jpg)
 
-#Responsiveness
+### Responsiveness
 
 The app's design is also responsive and can be used on mobile devices:
 
-![Responsive](./src/assets/images/readme/update.jpg)
+![Responsive](./src/assets/images/readme/responsive.jpg)
+
+### Unit tests
+
+E2E tests are present in the "cypress" folder and can be run in the browser with "npm run cypress".
