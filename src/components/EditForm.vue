@@ -113,7 +113,6 @@ export default {
       songTitle: { required: helpers.withMessage("Song Title cannot be empty", required) },
       songGenre: {
         required: helpers.withMessage("Song Genre cannot be empty", required),
-        alpha: helpers.withMessage("Song Genre cannot be empty", required),
       },
     };
   },
