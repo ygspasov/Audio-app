@@ -1,24 +1,9 @@
-# music-app
+# FlowMusic
 
-## Project setup
-```
-npm install
-```
+FlowMusic is music player app built with [Vue.js](https://vuejs.org/).
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+## Installation and running the project
 
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+npm i (for installing the dependencies)
+npm run dev (for running the project)
+npm run cypress (for running the tests)
