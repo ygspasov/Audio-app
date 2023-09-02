@@ -65,7 +65,7 @@ Clicking on any of the songs from the home page opens the page for that particul
 
 ### Uploading songs
 
-Logged in users can upload songs into the My Songs section of the Manage page either by drag and dropping several audio files from their disk or manually those. Successfully uploaded files are listed under the My Songs section, and can be played through the home page. The upload progress of each song is listed under the Upload section:
+Logged in users can upload songs into the My Songs section of the Manage page either by drag and dropping several audio files from their disk or manually doing so. Successfully uploaded files are listed under the My Songs section, and can be played through the home page. The upload progress of each song is listed under the Upload section:
 
 ![Uploading](./src/assets/images/readme/upload.jpg)
 
